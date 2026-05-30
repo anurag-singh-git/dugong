@@ -1,678 +1,717 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dugong — AI-Native Workflow Automation</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dugong — Automate anything. Just describe it.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#ffffff;--bg2:#f7f8fa;--bg3:#eef0f3;
-  --surface:#ffffff;--surface2:#f4f5f7;--surface-border:#e2e5ea;
-  --text:#111827;--text-mid:#374151;--text-dim:#6b7280;--text-faint:#9ca3af;
-  --accent:#0d9373;--accent-light:#10b981;--accent-bg:rgba(13,147,115,.06);--accent-border:rgba(13,147,115,.18);
-  --violet:#7c3aed;--violet-bg:rgba(124,58,237,.05);--violet-border:rgba(124,58,237,.12);
-  --orange:#ea580c;--orange-bg:rgba(234,88,12,.06);
-  --blue:#2563eb;--blue-bg:rgba(37,99,235,.06);
-  --coral:#ef4444;
-  --font-display:'Instrument Serif',Georgia,serif;
-  --font-body:'DM Sans',system-ui,sans-serif;
-  --font-mono:'JetBrains Mono',monospace;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.03);
-  --shadow-md:0 4px 20px rgba(0,0,0,.06);
-  --shadow-lg:0 20px 60px rgba(0,0,0,.08);
-  --shadow-xl:0 25px 80px rgba(0,0,0,.1);
-  --radius:14px;
-}
-html{scroll-behavior:smooth;font-size:16px}
-body{font-family:var(--font-body);background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --indigo: #5C4EE5;
+    --indigo-light: #EEECFB;
+    --indigo-dark: #4338CA;
+    --black: #0D0D0D;
+    --gray-700: #444;
+    --gray-500: #767676;
+    --gray-300: #D0D0D0;
+    --gray-100: #F5F5F5;
+    --white: #FFFFFF;
+    --green: #16A34A;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Instrument Sans', sans-serif; background: var(--white); color: var(--black); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(16px) saturate(1.8);background:rgba(255,255,255,.85);border-bottom:1px solid rgba(0,0,0,.05)}
-.logo{display:flex;align-items:center;gap:.55rem;font-family:var(--font-display);font-size:1.45rem;color:var(--text);text-decoration:none;letter-spacing:-.02em}
-.logo-icon{width:34px;height:34px;border-radius:9px;background:var(--accent);display:flex;align-items:center;justify-content:center}
-.logo-icon svg{width:18px;height:18px}
-.nav-links{display:flex;gap:1.75rem;align-items:center}
-.nav-links a{color:var(--text-dim);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:var(--text)}
-.btn{display:inline-flex;align-items:center;gap:.45rem;padding:.6rem 1.35rem;border-radius:9px;font-size:.88rem;font-weight:600;font-family:var(--font-body);text-decoration:none;cursor:pointer;border:none;transition:all .2s}
-.btn-primary{background:var(--text);color:#fff}
-.btn-primary:hover{background:#000;transform:translateY(-1px);box-shadow:var(--shadow-md)}
-.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--surface-border)}
-.btn-ghost:hover{border-color:var(--text);background:var(--bg2)}
-.btn-accent{background:var(--accent);color:#fff}
-.btn-accent:hover{background:var(--accent-light);transform:translateY(-1px);box-shadow:0 4px 20px rgba(13,147,115,.2)}
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--gray-300); padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon { width: 36px; height: 36px; background: #5C4EE5; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .logo-icon svg { width: 20px; height: 20px; }
+  .logo-text { font-size: 20px; font-weight: 700; color: var(--black); letter-spacing: -0.5px; }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--gray-700); font-size: 15px; font-weight: 500; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--black); }
+  .nav-actions { display: flex; align-items: center; gap: 12px; }
+  .btn-ghost { background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 500; color: var(--gray-700); cursor: pointer; padding: 8px 16px; border-radius: var(--radius-sm); text-decoration: none; transition: background 0.15s; }
+  .btn-ghost:hover { background: var(--gray-100); }
+  .btn-primary { background: var(--indigo); color: white; border: none; font-family: inherit; font-size: 15px; font-weight: 600; padding: 9px 20px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s, transform 0.1s; }
+  .btn-primary:hover { background: var(--indigo-dark); transform: translateY(-1px); }
+  .btn-secondary { background: white; color: var(--black); border: 1.5px solid var(--gray-300); font-family: inherit; font-size: 15px; font-weight: 600; padding: 9px 20px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: border-color 0.15s, background 0.15s; }
+  .btn-secondary:hover { border-color: var(--black); background: var(--gray-100); }
 
-/* ── BADGES ── */
-.ai-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .7rem;border-radius:100px;font-size:.68rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;background:linear-gradient(135deg,var(--accent-bg),var(--violet-bg));border:1px solid var(--accent-border);color:var(--accent)}
-.ai-badge .spark{animation:sparkle 2s ease-in-out infinite}
-@keyframes sparkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+  .hero { padding: 96px 48px 80px; text-align: center; max-width: 900px; margin: 0 auto; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--indigo-light); color: var(--indigo-dark); font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 100px; margin-bottom: 28px; }
+  .badge-dot { width: 6px; height: 6px; background: var(--indigo); border-radius: 50%; }
+  h1 { font-size: clamp(40px, 6vw, 68px); font-weight: 700; line-height: 1.08; letter-spacing: -2px; color: var(--black); margin-bottom: 24px; }
+  h1 em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--indigo); }
+  .hero-sub { font-size: 20px; color: var(--gray-500); max-width: 560px; margin: 0 auto 40px; line-height: 1.55; }
+  .hero-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 64px; }
+  .hero-actions .btn-primary, .hero-actions .btn-secondary { font-size: 16px; padding: 13px 28px; }
+  .trusted-row { display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; }
+  .trusted-label { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.8px; }
+  .trusted-logos { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .trusted-logos span { font-size: 14px; font-weight: 700; color: var(--gray-300); }
 
-/* ── HERO ── */
-.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(13,147,115,.05) 0%,rgba(124,58,237,.025) 40%,transparent 70%);pointer-events:none;border-radius:50%}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1rem;border-radius:100px;background:var(--accent-bg);border:1px solid var(--accent-border);font-size:.78rem;color:var(--accent);font-weight:600;margin-bottom:2rem;animation:fadeUp .8s ease both}
-.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-family:var(--font-display);font-size:clamp(3rem,7vw,6rem);line-height:1.02;letter-spacing:-.035em;font-weight:400;max-width:880px;animation:fadeUp .8s .1s ease both}
-.hero h1 em{font-style:italic;color:var(--accent)}
-.hero-sub{font-size:1.15rem;color:var(--text-dim);max-width:580px;line-height:1.75;margin:1.75rem 0 2.5rem;animation:fadeUp .8s .2s ease both}
-.hero-sub strong{color:var(--text-mid);font-weight:600}
-.hero-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s .3s ease both}
-.hero-trust{margin-top:3.5rem;animation:fadeUp .8s .45s ease both}
-.hero-trust p{font-size:.72rem;color:var(--text-faint);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.12em;font-weight:600}
-.trust-logos{display:flex;gap:2.5rem;align-items:center}
-.trust-logos span{font-size:.9rem;font-weight:700;color:var(--text-faint);letter-spacing:.01em}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  section { padding: 96px 48px; max-width: 1120px; margin: 0 auto; }
+  .full-bleed { max-width: 100%; padding: 96px 0; background: var(--gray-100); }
+  .full-bleed .inner { max-width: 1120px; margin: 0 auto; padding: 0 48px; }
+  .eyebrow { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--indigo); margin-bottom: 16px; }
+  h2 { font-size: clamp(30px, 4vw, 46px); font-weight: 700; letter-spacing: -1.5px; line-height: 1.1; color: var(--black); margin-bottom: 16px; }
+  h2 em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--indigo); }
+  .sec-sub { font-size: 18px; color: var(--gray-500); max-width: 560px; line-height: 1.55; }
+  .center { text-align: center; }
 
-/* ── SECTIONS ── */
-section{padding:6rem 2rem}
-.section-label{font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem;font-weight:600}
-.section-label .ai-dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
-.section-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);line-height:1.15;letter-spacing:-.025em;max-width:650px;color:var(--text)}
-.section-title em{font-style:italic;color:var(--accent)}
-.bg-alt{background:var(--bg2)}
+  .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 56px; }
+  .step-card { background: white; border: 1px solid var(--gray-300); border-radius: var(--radius); padding: 32px; transition: box-shadow 0.2s, border-color 0.2s; }
+  .step-card:hover { border-color: var(--gray-700); box-shadow: 0 8px 32px rgba(0,0,0,0.07); }
+  .step-num { font-size: 12px; font-weight: 700; color: var(--gray-300); letter-spacing: 1px; margin-bottom: 20px; }
+  .step-icon { width: 44px; height: 44px; background: var(--indigo-light); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 20px; }
+  .step-card h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 10px; }
+  .step-card p { font-size: 15px; color: var(--gray-500); line-height: 1.6; }
 
-/* ══════════════════════════════════════════
-   LIVE EXAMPLE — the centerpiece
-   ══════════════════════════════════════════ */
-.example-section{max-width:1100px;margin:0 auto;padding:7rem 2rem 8rem}
-.example-section .section-label{justify-content:center}
-.example-section .section-title{margin:0 auto;text-align:center}
-.example-section>p.sub{text-align:center;color:var(--text-dim);max-width:560px;margin:1rem auto 0;font-size:1.02rem;line-height:1.7}
+  .demo-section { background: var(--black); padding: 96px 48px; }
+  .demo-section .eyebrow { color: #7C6FF0; }
+  .demo-section h2 { color: white; }
+  .demo-section .sec-sub { color: #888; }
+  .demo-inner { max-width: 1120px; margin: 0 auto; }
+  .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 56px; align-items: start; }
+  .panel { border-radius: var(--radius); overflow: hidden; }
+  .panel-header { background: #1A1A1A; padding: 14px 20px; display: flex; align-items: center; gap: 6px; }
+  .panel-header .plabel { font-size: 13px; font-weight: 600; color: #666; margin-left: 6px; }
+  .pdot { width: 8px; height: 8px; border-radius: 50%; }
+  .pdot.r { background: #FF5F57; } .pdot.y { background: #FEBC2E; } .pdot.g { background: #28C840; }
+  .panel-body { background: #111; padding: 24px; }
+  .plabel2 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 10px; }
+  .trigger-block { background: #0F0E1F; border: 1px solid #2A2350; border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 20px; }
+  .trigger-tag { font-size: 11px; font-weight: 700; color: var(--indigo); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+  .trigger-text { color: #E0E0E0; font-size: 14px; line-height: 1.5; }
+  .nl-step { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+  .nl-num { min-width: 22px; height: 22px; background: #2A2A2A; color: #888; font-size: 11px; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .nl-text { color: #CCC; font-size: 14px; line-height: 1.5; }
+  .apill { display: inline; background: #2A2A2A; border-radius: 4px; padding: 1px 6px; font-size: 12px; font-weight: 600; color: #CCC; }
 
-.example-wrapper{margin-top:3.5rem;display:grid;grid-template-columns:1fr 60px 1fr;align-items:start;gap:0}
+  .run-panel .panel-body { background: #0A0A0A; padding: 0; }
+  .run-header { padding: 16px 20px; border-bottom: 1px solid #1E1E1E; display: flex; align-items: center; justify-content: space-between; }
+  .run-title { font-size: 13px; font-weight: 600; color: #DDD; display: flex; align-items: center; gap: 8px; }
+  .run-dot { width: 8px; height: 8px; border-radius: 50%; background: #5C4EE5; animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .run-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .run-badge.live { background: #0E2E1A; color: #34D399; }
+  .run-badge.done { background: #0E2E1A; color: #34D399; }
+  .run-log { padding: 16px 20px; }
+  .log-line { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+  .log-ts { font-size: 11px; color: #444; font-family: monospace; flex-shrink: 0; padding-top: 1px; }
+  .log-body { flex: 1; }
+  .log-evt { font-size: 13px; color: #888; margin-bottom: 4px; font-family: monospace; }
+  .log-detail { border-left: 2px solid #2A2A2A; padding: 6px 10px; border-radius: 0 4px 4px 0; font-size: 11px; font-family: monospace; line-height: 1.6; color: #555; white-space: pre-wrap; }
+  .log-detail.ok { border-left-color: #34D399; color: #34D399; }
+  .log-detail.ai { border-left-color: var(--indigo); color: #7C6FF0; }
+  .log-detail.branch { border-left-color: #60A5FA; color: #60A5FA; }
+  .run-footer { border-top: 1px solid #1E1E1E; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .run-meta { font-size: 12px; color: #444; font-family: monospace; }
 
-/* LEFT: what you type */
-.example-input{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg)}
-.ex-header{display:flex;align-items:center;gap:.65rem;padding:1rem 1.5rem;border-bottom:1px solid var(--surface-border);background:var(--bg2)}
-.ex-header-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
-.ex-header h3{font-size:.82rem;font-weight:700;letter-spacing:.02em}
-.ex-header span{font-size:.68rem;color:var(--text-faint);font-family:var(--font-mono)}
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 48px 0 40px; }
+  .tab { background: white; border: 1.5px solid var(--gray-300); border-radius: 100px; padding: 8px 20px; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--gray-700); cursor: pointer; transition: all 0.15s; }
+  .tab.active, .tab:hover { background: var(--black); border-color: var(--black); color: white; }
+  .uc-card { background: var(--gray-100); border-radius: var(--radius); padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .uc-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--indigo); margin-bottom: 12px; }
+  .uc-card h3 { font-size: 26px; font-weight: 700; letter-spacing: -0.6px; margin-bottom: 16px; line-height: 1.2; }
+  .uc-card > div > p { font-size: 15px; color: var(--gray-500); line-height: 1.6; margin-bottom: 24px; }
+  .flow-preview { background: white; border-radius: var(--radius); padding: 24px; border: 1px solid var(--gray-300); }
+  .fstep { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
+  .fstep:last-child { border-bottom: none; padding-bottom: 0; }
+  .ficon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; background: var(--gray-100); }
+  .ftext { flex: 1; }
+  .ftitle { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .fdesc { font-size: 12px; color: var(--gray-500); }
+  .fbadge { font-size: 11px; font-weight: 700; color: var(--indigo); background: var(--indigo-light); padding: 2px 8px; border-radius: 4px; align-self: center; white-space: nowrap; }
 
-/* trigger block */
-.trigger-block{padding:1.25rem 1.5rem;border-bottom:1px solid var(--surface-border)}
-.trigger-label{display:flex;align-items:center;gap:.4rem;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:.65rem}
-.trigger-label .icon{width:18px;height:18px;border-radius:4px;background:var(--orange-bg);display:flex;align-items:center;justify-content:center;font-size:.6rem}
-.trigger-input{width:100%;padding:.75rem 1rem;border-radius:9px;border:1.5px solid var(--surface-border);background:var(--bg2);font-family:var(--font-body);font-size:.88rem;color:var(--text);transition:border-color .2s}
-.trigger-input:focus{outline:none;border-color:var(--accent)}
-.trigger-typed{color:var(--text)}
+  .feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--gray-300); border-radius: var(--radius); overflow: hidden; margin-top: 56px; }
+  .feat { background: white; padding: 32px; transition: background 0.15s; }
+  .feat:hover { background: var(--indigo-light); }
+  .feat-icon { width: 40px; height: 40px; background: var(--black); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 18px; }
+  .feat h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .feat p { font-size: 14px; color: var(--gray-500); line-height: 1.6; }
 
-/* steps block */
-.steps-block{padding:1.25rem 1.5rem}
-.steps-label{display:flex;align-items:center;gap:.4rem;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:.85rem}
-.steps-label .icon{width:18px;height:18px;border-radius:4px;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:.6rem}
-.step-input-row{display:flex;gap:.65rem;margin-bottom:.65rem;align-items:flex-start}
-.step-num-badge{width:22px;height:22px;border-radius:6px;background:var(--bg3);font-size:.65rem;font-weight:700;color:var(--text-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.55rem}
-.step-input-box{flex:1;padding:.65rem .9rem;border-radius:9px;border:1.5px solid var(--surface-border);background:var(--bg2);font-family:var(--font-body);font-size:.86rem;color:var(--text);line-height:1.55}
-.step-input-box .app-mention{display:inline-flex;align-items:center;gap:.25rem;padding:.1rem .45rem;border-radius:5px;font-weight:600;font-size:.8rem}
-.app-mention.slack{background:rgba(74,21,75,.07);color:#611f69}
-.app-mention.salesforce{background:rgba(0,112,210,.07);color:#0070d2}
-.app-mention.gmail{background:rgba(234,67,53,.06);color:#c5221f}
-.app-mention.clearbit{background:rgba(39,85,237,.06);color:#2755ed}
-.app-mention.sheets{background:rgba(52,168,83,.06);color:#188038}
-.app-mention.notion{background:rgba(0,0,0,.05);color:#191919}
-.step-input-box .condition{color:var(--violet);font-weight:600}
-.add-step{display:flex;align-items:center;gap:.4rem;padding:.5rem .8rem;border-radius:8px;border:1.5px dashed var(--surface-border);background:none;cursor:pointer;font-family:var(--font-body);font-size:.8rem;color:var(--text-faint);transition:all .2s;margin-top:.25rem;width:100%}
-.add-step:hover{border-color:var(--accent);color:var(--accent)}
+  .cmp-table { width: 100%; border-collapse: collapse; margin-top: 56px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--gray-300); }
+  .cmp-table thead { background: var(--black); }
+  .cmp-table thead th { padding: 20px 28px; font-size: 14px; font-weight: 700; color: white; text-align: left; }
+  .cmp-table thead th:nth-child(2) { color: #888; }
+  .cmp-table thead th:nth-child(3) { color: var(--indigo); }
+  .cmp-table tbody tr:nth-child(even) { background: var(--gray-100); }
+  .cmp-table td { padding: 16px 28px; font-size: 15px; color: var(--gray-700); border-bottom: 1px solid var(--gray-300); }
+  .cmp-table tbody tr:last-child td { border-bottom: none; }
+  .cmp-table td:first-child { font-weight: 600; color: var(--black); }
+  .xm { color: var(--gray-300); font-weight: 700; }
+  .cm { color: var(--green); font-weight: 700; }
 
-.compile-btn-wrap{padding:1rem 1.5rem;border-top:1px solid var(--surface-border);background:var(--bg2)}
-.compile-btn{width:100%;padding:.75rem;border-radius:9px;background:var(--accent);color:#fff;font-family:var(--font-body);font-size:.88rem;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s}
-.compile-btn:hover{background:var(--accent-light);box-shadow:0 4px 20px rgba(13,147,115,.2)}
+  .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; background: var(--gray-300); border-radius: var(--radius); overflow: hidden; margin-top: 48px; }
+  .stat { background: var(--black); padding: 40px 32px; text-align: center; }
+  .stat-num { font-size: 48px; font-weight: 700; color: white; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
+  .stat-num span { color: var(--indigo); }
+  .stat-lbl { font-size: 14px; color: #666; font-weight: 500; }
 
-/* center arrow */
-.example-arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:120px;gap:.5rem}
-.arrow-line{width:2px;height:40px;background:var(--bg3)}
-.arrow-icon{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent-bg),var(--violet-bg));border:1.5px solid var(--accent-border);display:flex;align-items:center;justify-content:center;position:relative}
-.arrow-icon::before{content:'✦';font-size:1rem;color:var(--accent);animation:sparkle 2s ease-in-out infinite}
-.arrow-label{font-size:.62rem;font-family:var(--font-mono);font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);white-space:nowrap}
+  .int-section { text-align: center; }
+  .int-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 48px; max-width: 720px; margin-left: auto; margin-right: auto; }
+  .ichip { background: white; border: 1px solid var(--gray-300); border-radius: 100px; padding: 10px 20px; font-size: 14px; font-weight: 600; color: var(--gray-700); display: inline-flex; align-items: center; gap: 8px; transition: border-color 0.15s, transform 0.15s; cursor: default; }
+  .ichip:hover { border-color: var(--black); color: var(--black); transform: translateY(-2px); }
+  .ichip.more { background: var(--indigo-light); border-color: transparent; color: var(--indigo-dark); }
 
-/* RIGHT: what AI builds */
-.example-output{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);position:relative}
-.example-output::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--violet))}
-.ex-out-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--surface-border);background:var(--bg2)}
-.ex-out-title{font-family:var(--font-mono);font-size:.75rem;color:var(--text-dim);font-weight:500}
-.ex-out-status{display:flex;align-items:center;gap:.35rem;font-size:.65rem;padding:.2rem .55rem;border-radius:5px;background:var(--accent-bg);color:var(--accent);font-family:var(--font-mono);font-weight:700}
-.ex-out-status .live-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+  .price-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 56px; align-items: start; }
+  .pcard { background: white; border: 1px solid var(--gray-300); border-radius: var(--radius); padding: 36px; transition: box-shadow 0.2s; }
+  .pcard:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+  .pcard.featured { border: 2px solid var(--black); position: relative; }
+  .pfeatbadge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--black); color: white; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+  .pname { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-500); margin-bottom: 16px; }
+  .pprice { font-size: 48px; font-weight: 700; color: var(--black); letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
+  .pprice sup { font-size: 24px; vertical-align: top; margin-top: 10px; font-weight: 600; letter-spacing: 0; }
+  .pprice span { font-size: 16px; font-weight: 500; color: var(--gray-500); letter-spacing: 0; }
+  .pdesc { font-size: 14px; color: var(--gray-500); margin-bottom: 28px; line-height: 1.5; }
+  .pdiv { border: none; border-top: 1px solid var(--gray-300); margin-bottom: 24px; }
+  .pfeat { list-style: none; margin-bottom: 32px; }
+  .pfeat li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--gray-700); margin-bottom: 12px; line-height: 1.4; }
+  .pfeat li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
 
-.pb-node{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;margin:.5rem 1rem;background:var(--bg2);border:1px solid var(--surface-border);border-radius:9px;transition:all .25s}
-.pb-node:first-of-type{margin-top:1rem}
-.pb-node:hover{border-color:var(--accent-border);background:var(--accent-bg)}
-.pb-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0}
-.pb-icon.trigger{background:var(--orange-bg)}
-.pb-icon.ai{background:linear-gradient(135deg,var(--accent-bg),var(--violet-bg));border:1px solid var(--accent-border)}
-.pb-icon.app{background:var(--blue-bg)}
-.pb-icon.condition{background:var(--violet-bg)}
-.pb-icon.notify{background:rgba(234,88,12,.06)}
-.pb-icon.shield{background:rgba(239,68,68,.05)}
-.pb-node-text h5{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.05rem}
-.pb-node-text span{font-size:.65rem;color:var(--text-faint);font-family:var(--font-mono)}
-.ai-tag-sm{font-size:.52rem;padding:.08rem .3rem;border-radius:3px;background:linear-gradient(135deg,var(--accent-bg),var(--violet-bg));color:var(--accent);font-weight:700;margin-left:.3rem;letter-spacing:.03em;border:1px solid var(--accent-border);vertical-align:middle}
-.pb-divider{width:1px;height:12px;background:var(--surface-border);margin:0 auto}
-.pb-branch{margin:.35rem 1rem;padding:.6rem .85rem;border-radius:8px;border:1.5px dashed var(--violet-border);background:var(--violet-bg);display:flex;gap:.5rem;align-items:flex-start}
-.pb-branch-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--violet);white-space:nowrap;padding-top:.1rem}
-.pb-branch-paths{font-size:.72rem;color:var(--text-dim);line-height:1.6;font-family:var(--font-mono)}
-.pb-branch-paths strong{color:var(--text);font-weight:600}
-.pb-footer{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.25rem;margin-top:.5rem;border-top:1px solid var(--surface-border);background:var(--bg2)}
-.pb-footer-stat{font-size:.68rem;color:var(--text-faint);font-family:var(--font-mono)}
-.pb-footer-stat strong{color:var(--accent);font-weight:700}
-.pb-footer .deploy-badge{font-size:.65rem;padding:.25rem .6rem;border-radius:5px;background:var(--accent);color:#fff;font-weight:700;letter-spacing:.04em}
+  .cta-strip { background: var(--indigo); padding: 80px 48px; text-align: center; }
+  .cta-strip h2 { color: white; margin-bottom: 16px; }
+  .cta-strip p { color: rgba(255,255,255,0.8); font-size: 18px; margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .btn-white { background: white; color: var(--indigo-dark); border: none; font-family: inherit; font-size: 16px; font-weight: 700; padding: 14px 32px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.1s, box-shadow 0.15s; }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
 
-/* ── HOW IT WORKS ── */
-.how-it-works{max-width:1060px;margin:0 auto}
-.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem}
-.step-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius);padding:2rem;position:relative;overflow:hidden;transition:all .3s}
-.step-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:rgba(13,147,115,.2)}
-.step-num-big{font-family:var(--font-display);font-size:3.5rem;color:var(--bg3);position:absolute;top:-4px;right:14px;line-height:1}
-.step-card-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.15rem;font-size:1.2rem}
-.step-card:nth-child(1) .step-card-icon{background:var(--bg3)}
-.step-card:nth-child(2) .step-card-icon{background:linear-gradient(135deg,var(--accent-bg),var(--violet-bg))}
-.step-card:nth-child(3) .step-card-icon{background:rgba(239,68,68,.05)}
-.step-card h3{font-family:var(--font-display);font-size:1.35rem;margin-bottom:.6rem}
-.step-card p{color:var(--text-dim);line-height:1.7;font-size:.92rem}
-.step-card .ai-badge{margin-top:.85rem}
+  footer { background: var(--black); padding: 64px 48px 32px; }
+  .ft-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+  .ft-brand .logo-text { color: white; }
+  .ft-tagline { font-size: 14px; color: #555; margin-top: 16px; line-height: 1.6; max-width: 260px; }
+  .ft-col h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 20px; }
+  .ft-col ul { list-style: none; }
+  .ft-col ul li { margin-bottom: 12px; }
+  .ft-col ul li a { font-size: 14px; color: #888; text-decoration: none; transition: color 0.15s; }
+  .ft-col ul li a:hover { color: white; }
+  .ft-bottom { border-top: 1px solid #1F1F1F; padding-top: 32px; display: flex; align-items: center; justify-content: space-between; }
+  .ft-bottom p { font-size: 13px; color: #444; }
 
-/* ── AI CAPABILITIES ── */
-.ai-capabilities{max-width:1060px;margin:0 auto}
-.cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:3.5rem}
-.cap-card{padding:2rem;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius);position:relative;overflow:hidden;transition:all .3s}
-.cap-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--violet));opacity:0;transition:opacity .3s}
-.cap-card:hover::before{opacity:1}
-.cap-card:hover{box-shadow:var(--shadow-md);border-color:rgba(13,147,115,.15)}
-.cap-header{display:flex;align-items:center;gap:.85rem;margin-bottom:.85rem}
-.cap-icon{width:40px;height:40px;flex-shrink:0;border-radius:9px;background:linear-gradient(135deg,var(--accent-bg),var(--violet-bg));display:flex;align-items:center;justify-content:center;font-size:1.05rem}
-.cap-card h4{font-size:1.02rem;font-weight:600}
-.cap-card h4 .ai-cap-tag{font-size:.6rem;padding:.12rem .4rem;border-radius:4px;background:linear-gradient(135deg,var(--accent-bg),var(--violet-bg));color:var(--accent);font-weight:700;vertical-align:middle;margin-left:.4rem}
-.cap-card p{color:var(--text-dim);font-size:.9rem;line-height:1.7}
-
-/* ── COMPARISON ── */
-.comparison{max-width:860px;margin:0 auto}
-.compare-table{margin-top:3rem;border-radius:var(--radius);overflow:hidden;border:1px solid var(--surface-border);box-shadow:var(--shadow-sm)}
-.compare-row{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--surface-border)}
-.compare-row:last-child{border-bottom:none}
-.compare-row.header{background:var(--bg2)}
-.compare-cell{padding:.85rem 1.25rem;font-size:.85rem;color:var(--text-dim)}
-.compare-row.header .compare-cell{font-weight:700;color:var(--text);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}
-.compare-cell.label{font-weight:500;color:var(--text)}
-.compare-cell .x{color:var(--text-faint)}
-.compare-cell .check{color:var(--accent);font-weight:700}
-.compare-cell.dugong-col{background:var(--accent-bg)}
-.compare-row.header .dugong-col{background:rgba(13,147,115,.08);color:var(--accent)}
-
-/* ── STATS ── */
-.stats{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
-.stat{text-align:center;padding:2.25rem 1rem;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius)}
-.stat .num{font-family:var(--font-display);font-size:2.6rem;letter-spacing:-.03em;color:var(--accent)}
-.stat .label{font-size:.82rem;color:var(--text-dim);margin-top:.25rem}
-
-/* ── INTEGRATIONS ── */
-.integrations{text-align:center;max-width:880px;margin:0 auto}
-.integrations p.desc{color:var(--text-dim);font-size:1.02rem;line-height:1.7;margin-top:1rem;max-width:560px;margin-left:auto;margin-right:auto}
-.logo-cloud{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-top:3rem}
-.int-logo{width:68px;height:68px;border-radius:12px;background:var(--surface);border:1px solid var(--surface-border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25rem;transition:all .25s}
-.int-logo:hover{border-color:var(--accent-border);transform:translateY(-2px);box-shadow:var(--shadow-md)}
-.int-logo .emoji{font-size:1.3rem}
-.int-logo span{font-size:.5rem;color:var(--text-faint);font-weight:600}
-
-/* ── PRICING ── */
-.pricing{text-align:center;max-width:980px;margin:0 auto}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3.5rem}
-.price-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius);padding:2.25rem 1.75rem;text-align:left;position:relative;transition:all .3s}
-.price-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
-.price-card.featured{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),var(--shadow-md)}
-.price-card.featured::before{content:'POPULAR';position:absolute;top:.85rem;right:.85rem;font-size:.58rem;font-weight:700;letter-spacing:.08em;padding:.2rem .5rem;border-radius:5px;background:var(--accent);color:#fff}
-.price-tier{font-size:.82rem;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em}
-.price-amount{font-family:var(--font-display);font-size:2.8rem;margin:.6rem 0;letter-spacing:-.03em}
-.price-amount span{font-size:.95rem;color:var(--text-faint);font-family:var(--font-body)}
-.price-desc{font-size:.88rem;color:var(--text-dim);line-height:1.6;margin-bottom:1.25rem;min-height:42px}
-.price-features{list-style:none;margin-bottom:1.75rem}
-.price-features li{font-size:.85rem;color:var(--text-dim);padding:.35rem 0;display:flex;align-items:center;gap:.45rem}
-.price-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:.72rem}
-.price-features li.ai-feat{color:var(--text)}
-.price-features li.ai-feat::before{content:'✦';color:var(--violet)}
-.price-card .btn{width:100%;justify-content:center}
-
-/* ── CTA ── */
-.cta-section{text-align:center;max-width:680px;margin:0 auto;padding:7rem 2rem}
-.cta-section h2{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.1;letter-spacing:-.03em;margin-bottom:1.15rem}
-.cta-section h2 em{font-style:italic;color:var(--accent)}
-.cta-section>p{color:var(--text-dim);font-size:1.05rem;line-height:1.7;margin-bottom:2.25rem}
-.cta-input{display:flex;gap:.6rem;max-width:440px;margin:0 auto;background:var(--bg2);border:1px solid var(--surface-border);border-radius:11px;padding:.35rem .35rem .35rem 1.1rem}
-.cta-input input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:var(--font-body);font-size:.92rem}
-.cta-input input::placeholder{color:var(--text-faint)}
-
-/* ── FOOTER ── */
-footer{border-top:1px solid var(--surface-border);padding:2.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto}
-footer .logo{font-size:1.15rem}
-.footer-links{display:flex;gap:1.75rem}
-.footer-links a{color:var(--text-faint);font-size:.82rem;text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--text)}
-.footer-copy{color:var(--text-faint);font-size:.78rem}
-
-/* ── RESPONSIVE ── */
-@media(max-width:1000px){
-  .example-wrapper{grid-template-columns:1fr;gap:1.5rem}
-  .example-arrow{flex-direction:row;padding-top:0;justify-content:center}
-  .arrow-line{width:40px;height:2px}
-}
-@media(max-width:900px){
-  .steps-grid,.cap-grid,.pricing-grid{grid-template-columns:1fr}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  nav{padding:1rem 1.5rem}
-  .nav-links a:not(.btn){display:none}
-}
-@media(max-width:600px){
-  .hero h1{font-size:2.4rem}
-  .cta-input{flex-direction:column}
-  .cta-input .btn{width:100%;justify-content:center}
-  footer{flex-direction:column;gap:1.25rem;text-align:center}
-  .footer-links{flex-wrap:wrap;justify-content:center}
-  .stats{grid-template-columns:1fr 1fr}
-  .trust-logos{gap:1.5rem;flex-wrap:wrap;justify-content:center}
-}
-.reveal{opacity:0;transform:translateY(24px);transition:all .65s cubic-bezier(.16,1,.3,1)}
-.reveal.visible{opacity:1;transform:translateY(0)}
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero, .demo-section, .cta-strip { padding-left: 24px; padding-right: 24px; }
+    section { padding: 64px 24px; }
+    .full-bleed .inner { padding: 0 24px; }
+    .steps-grid, .price-grid, .feat-grid, .demo-grid, .uc-card { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+    .ft-top { grid-template-columns: 1fr; gap: 32px; }
+    .cmp-table td, .cmp-table thead th { padding: 12px 16px; font-size: 13px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <a href="#" class="logo">
-    <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"/><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"/><path d="M3 12h18"/></svg></div>
-    dugong
+  <a href="#" class="nav-logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"></path><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"></path><path d="M3 12h18"></path></svg></div>
+    <span class="logo-text">dugong</span>
   </a>
-  <div class="nav-links">
-    <a href="#example">See it work</a>
-    <a href="#ai">AI Engine</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#" class="btn btn-ghost">Log in</a>
-    <a href="#" class="btn btn-primary">Start free →</a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#use-cases">Use cases</a></li>
+    <li><a href="#integrations">Integrations</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#" class="btn-ghost">Log in</a>
+    <a href="#" class="btn-primary">Start free →</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-badge"><span class="dot"></span> Powered by autonomous AI agents</div>
-  <h1>Your workflows, spoken.<br>Our <em>AI builds &amp; runs them.</em></h1>
-  <p class="hero-sub">Define a trigger. Type your steps in plain English. Dugong's <strong>AI agents</strong> compile it into a live playbook that executes autonomously — <strong>learning and improving</strong> with every run.</p>
+<div class="hero">
+  <div class="hero-badge"><div class="badge-dot"></div>AI agents with real tool access</div>
+  <h1>Write your workflow.<br><em>AI runs it.</em></h1>
+  <p class="hero-sub">Describe what you want to automate in plain English. Dugong hands your instructions to an AI agent — it reads them, reasons through each step, and calls your apps directly. No builder. No blocks. No code.</p>
   <div class="hero-actions">
-    <a href="#example" class="btn btn-accent">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      See how it works
-    </a>
-    <a href="#" class="btn btn-ghost">Start building free</a>
+    <a href="#" class="btn-primary">Start for free →</a>
+    <a href="#how" class="btn-secondary">▶ See how it works</a>
   </div>
-  <div class="hero-trust">
-    <p>Trusted by AI-forward teams at</p>
-    <div class="trust-logos">
+  <div class="trusted-row">
+    <span class="trusted-label">Trusted by teams at</span>
+    <div class="trusted-logos">
       <span>Vercel</span><span>Notion</span><span>Linear</span><span>Ramp</span><span>Resend</span>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════
-     LIVE EXAMPLE — the centerpiece
-     ══════════════════════════════════════ -->
-<div class="example-section" id="example">
-  <span class="section-label"><span class="ai-dot"></span> See it in action</span>
-  <h2 class="section-title">You describe it. <em>AI builds the playbook.</em></h2>
-  <p class="sub">Write a trigger and your steps in natural language — mention any apps by name. Dugong's AI compiles everything into an executable, self-healing playbook.</p>
-
-  <div class="example-wrapper reveal">
-    <!-- LEFT — what you type -->
-    <div class="example-input">
-      <div class="ex-header">
-        <div class="ex-header-icon" style="background:var(--bg3)">✍️</div>
-        <div>
-          <h3>What you type</h3>
-          <span>Natural language input</span>
-        </div>
-      </div>
-
-      <!-- Trigger -->
-      <div class="trigger-block">
-        <div class="trigger-label"><span class="icon">⚡</span> Trigger — what kicks this off?</div>
-        <div class="trigger-input trigger-typed">When a new customer signs up on our website</div>
-      </div>
-
-      <!-- Steps -->
-      <div class="steps-block">
-        <div class="steps-label"><span class="icon">→</span> Steps — what should happen next?</div>
-
-        <div class="step-input-row">
-          <div class="step-num-badge">1</div>
-          <div class="step-input-box">Look up their company info using <span class="app-mention clearbit">📊 Clearbit</span> and enrich their profile</div>
-        </div>
-
-        <div class="step-input-row">
-          <div class="step-num-badge">2</div>
-          <div class="step-input-box">Score the lead using AI based on company size, industry, and role seniority</div>
-        </div>
-
-        <div class="step-input-row">
-          <div class="step-num-badge">3</div>
-          <div class="step-input-box"><span class="condition">If score is above 80</span>, create a deal in <span class="app-mention salesforce">☁️ Salesforce</span> and assign to sales team</div>
-        </div>
-
-        <div class="step-input-row">
-          <div class="step-num-badge">4</div>
-          <div class="step-input-box">Send a personalized welcome email via <span class="app-mention gmail">📧 Gmail</span> with their name and company</div>
-        </div>
-
-        <div class="step-input-row">
-          <div class="step-num-badge">5</div>
-          <div class="step-input-box">Log the signup in our <span class="app-mention sheets">📗 Google Sheet</span> and post a summary to <span class="app-mention slack">💬 Slack</span> in #new-signups</div>
-        </div>
-
-        <button class="add-step">+ Add another step</button>
-      </div>
-
-      <div class="compile-btn-wrap">
-        <button class="compile-btn">🧠 Compile with AI</button>
-      </div>
-    </div>
-
-    <!-- CENTER ARROW -->
-    <div class="example-arrow">
-      <div class="arrow-line"></div>
-      <div class="arrow-icon"></div>
-      <div class="arrow-label">AI compiles</div>
-      <div class="arrow-line"></div>
-    </div>
-
-    <!-- RIGHT — what AI builds -->
-    <div class="example-output">
-      <div class="ex-out-header">
-        <span class="ex-out-title">new-signup-flow.playbook</span>
-        <span class="ex-out-status"><span class="live-dot"></span> Ready to deploy</span>
-      </div>
-
-      <div class="pb-node">
-        <div class="pb-icon trigger">⚡</div>
-        <div class="pb-node-text">
-          <h5>Trigger: New Signup Webhook</h5>
-          <span>POST /webhooks/signup → parse payload <span class="ai-tag-sm">AI-detected</span></span>
-        </div>
-      </div>
-      <div class="pb-divider"></div>
-
-      <div class="pb-node">
-        <div class="pb-icon app">📊</div>
-        <div class="pb-node-text">
-          <h5>Enrich via Clearbit</h5>
-          <span>clearbit.com/v2/people/find?email={email} <span class="ai-tag-sm">AI-resolved</span></span>
-        </div>
-      </div>
-      <div class="pb-divider"></div>
-
-      <div class="pb-node">
-        <div class="pb-icon ai">🧠</div>
-        <div class="pb-node-text">
-          <h5>AI Lead Scoring</h5>
-          <span>model: dugong-scorer-v3 → input: company_size, industry, seniority <span class="ai-tag-sm">AI-generated</span></span>
-        </div>
-      </div>
-      <div class="pb-divider"></div>
-
-      <div class="pb-branch">
-        <div class="pb-branch-label">Branch</div>
-        <div class="pb-branch-paths">
-          <strong>IF score &gt; 80 →</strong> create Salesforce deal + assign rep<br>
-          <strong>ELSE →</strong> add to nurture sequence (AI-suggested)
-        </div>
-      </div>
-      <div class="pb-divider"></div>
-
-      <div class="pb-node">
-        <div class="pb-icon app">📧</div>
-        <div class="pb-node-text">
-          <h5>Send Welcome Email</h5>
-          <span>gmail API → template: welcome_v2 → vars: {name}, {company} <span class="ai-tag-sm">AI-wired</span></span>
-        </div>
-      </div>
-      <div class="pb-divider"></div>
-
-      <div class="pb-node">
-        <div class="pb-icon app">📗</div>
-        <div class="pb-node-text">
-          <h5>Log to Google Sheets</h5>
-          <span>sheets.append → "Signups" tab → row: {date, name, company, score} <span class="ai-tag-sm">AI-mapped</span></span>
-        </div>
-      </div>
-      <div class="pb-divider"></div>
-
-      <div class="pb-node">
-        <div class="pb-icon notify">💬</div>
-        <div class="pb-node-text">
-          <h5>Notify Slack #new-signups</h5>
-          <span>slack.postMessage → formatted summary block <span class="ai-tag-sm">AI-wired</span></span>
-        </div>
-      </div>
-      <div class="pb-divider"></div>
-
-      <div class="pb-node">
-        <div class="pb-icon shield">🛡️</div>
-        <div class="pb-node-text">
-          <h5>AI Error Shield</h5>
-          <span>retry 3x · exponential backoff · fallback: queue + alert #ops <span class="ai-tag-sm">AI-injected</span></span>
-        </div>
-      </div>
-
-      <div class="pb-footer">
-        <span class="pb-footer-stat"><strong>8 nodes</strong> · 1 branch · 5 APIs · AI-monitored</span>
-        <span class="deploy-badge">▶ Deploy</span>
-      </div>
     </div>
   </div>
 </div>
 
 <!-- HOW IT WORKS -->
-<section class="bg-alt">
-  <div class="how-it-works">
-    <div class="reveal">
-      <span class="section-label"><span class="ai-dot"></span> How it works</span>
-      <h2 class="section-title">Three steps. One <em>AI brain</em> doing the heavy lifting.</h2>
+<section id="how">
+  <div class="eyebrow">How it works</div>
+  <h2>No builder.<br><em>Just language.</em></h2>
+  <p class="sec-sub">Traditional automation tools make you draw a diagram. Dugong just reads what you write and does the work.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-icon">✍️</div>
+      <h3>Describe it in plain English</h3>
+      <p>Write your trigger and steps the way you'd explain it to a colleague. Say "if the deal is over $10k, notify the CSM." Name any app. No special syntax — just plain language.</p>
     </div>
-    <div class="steps-grid">
-      <div class="step-card reveal">
-        <span class="step-num-big">01</span>
-        <div class="step-card-icon">✍️</div>
-        <h3>Set a trigger &amp; describe steps</h3>
-        <p>Define what kicks off your workflow — a form submission, a new row, a Slack message. Then type each step in plain English. Mention any app by name.</p>
-      </div>
-      <div class="step-card reveal">
-        <span class="step-num-big">02</span>
-        <div class="step-card-icon">🧠</div>
-        <h3>AI compiles your playbook</h3>
-        <p>Dugong's AI parses your intent, resolves API integrations, generates branching logic, injects error handling, and optimizes execution order.</p>
-        <span class="ai-badge"><span class="spark">✦</span> AI-powered</span>
-      </div>
-      <div class="step-card reveal">
-        <span class="step-num-big">03</span>
-        <div class="step-card-icon">⚡</div>
-        <h3>AI runs &amp; self-improves</h3>
-        <p>Deploy in one click. The AI monitors every run, catches failures before they cascade, and optimizes performance over time — zero maintenance.</p>
-        <span class="ai-badge"><span class="spark">✦</span> Self-learning</span>
-      </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-icon">🤖</div>
+      <h3>An AI agent reads and reasons through it</h3>
+      <p>Your description is passed to an AI agent. It understands the intent, decides what to do at each step, handles conditions, and figures out what to pass between apps — live, at runtime.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-icon">⚡</div>
+      <h3>It calls your apps and gets it done</h3>
+      <p>The agent executes each step by making direct tool calls to Slack, Gmail, Salesforce, Notion, and more — in the right order, with the right data — no human involved.</p>
     </div>
   </div>
 </section>
 
-<!-- AI CAPABILITIES -->
-<section id="ai">
-  <div class="ai-capabilities">
-    <div style="text-align:center" class="reveal">
-      <span class="section-label" style="justify-content:center"><span class="ai-dot"></span> AI Engine</span>
-      <h2 class="section-title" style="margin:0 auto">Not just automation. <em>AI intelligence</em> at every layer.</h2>
-      <p style="color:var(--text-dim);max-width:580px;margin:1rem auto 0;line-height:1.7;font-size:1.02rem">Every playbook is powered by AI agents that understand, decide, adapt, and learn — far beyond if/then rules.</p>
+<!-- DEMO -->
+<div class="demo-section">
+  <div class="demo-inner">
+    <div class="eyebrow">Live example</div>
+    <h2>You write this.<br><em style="color:#7C6FF0;">The agent does this.</em></h2>
+    <p class="sec-sub">A real workflow — written in plain English on the left, executed by the AI agent on the right.</p>
+    <div class="demo-grid">
+
+      <!-- What the user writes -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="pdot r"></div><div class="pdot y"></div><div class="pdot g"></div>
+          <span class="plabel">Your workflow description</span>
+        </div>
+        <div class="panel-body">
+          <div class="plabel2">Trigger</div>
+          <div class="trigger-block">
+            <div class="trigger-tag">⚡ When this happens</div>
+            <div class="trigger-text">A deal is marked "Closed Won" in Salesforce</div>
+          </div>
+          <div class="plabel2">Steps — in your own words</div>
+          <div class="nl-step">
+            <div class="nl-num">1</div>
+            <div class="nl-text">Look up the contact in <span class="apill">Clearbit</span> — get their company size, industry, and LinkedIn</div>
+          </div>
+          <div class="nl-step">
+            <div class="nl-num">2</div>
+            <div class="nl-text">Create an onboarding project in <span class="apill">Notion</span> using our "New Client" template, fill in their details</div>
+          </div>
+          <div class="nl-step">
+            <div class="nl-num">3</div>
+            <div class="nl-text">If the deal is over $10k, post to <span class="apill">Slack</span> #csm-team and assign a dedicated CSM. Otherwise skip.</div>
+          </div>
+          <div class="nl-step">
+            <div class="nl-num">4</div>
+            <div class="nl-text">Send a personalised welcome email from the account exec's <span class="apill">Gmail</span></div>
+          </div>
+          <div class="nl-step">
+            <div class="nl-num">5</div>
+            <div class="nl-text">Log the win in our <span class="apill">Google Sheets</span> revenue tracker with deal value and close date</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What the agent does -->
+      <div class="panel run-panel">
+        <div class="panel-header">
+          <div class="pdot r"></div><div class="pdot y"></div><div class="pdot g"></div>
+          <span class="plabel">Agent executing now</span>
+        </div>
+        <div class="panel-body">
+          <div class="run-header">
+            <div class="run-title"><div class="run-dot"></div>Acme Corp · $24,000</div>
+            <span class="run-badge done">Done ✓</span>
+          </div>
+          <div class="run-log">
+
+            <div class="log-line">
+              <div class="log-ts">09:41:02</div>
+              <div class="log-body">
+                <div class="log-evt">Trigger received → Salesforce webhook</div>
+                <div class="log-detail ok">opportunity.stage = "Closed Won"
+contact.email = "sarah@acmecorp.com"</div>
+              </div>
+            </div>
+
+            <div class="log-line">
+              <div class="log-ts">09:41:03</div>
+              <div class="log-body">
+                <div class="log-evt">Step 1 → tool call: clearbit.enrich()</div>
+                <div class="log-detail ai">clearbit.enrich({ email: "sarah@acmecorp.com" })
+← company_size: 340, industry: "FinTech"
+   linkedin: linkedin.com/in/sarah-k</div>
+              </div>
+            </div>
+
+            <div class="log-line">
+              <div class="log-ts">09:41:04</div>
+              <div class="log-body">
+                <div class="log-evt">Step 2 → tool call: notion.pages.create()</div>
+                <div class="log-detail ai">notion.pages.create({ template: "New Client",
+  client: "Acme Corp", industry: "FinTech" })
+← page_id: abc-123 · created ✓</div>
+              </div>
+            </div>
+
+            <div class="log-line">
+              <div class="log-ts">09:41:05</div>
+              <div class="log-body">
+                <div class="log-evt">Step 3 → agent reasoning: is $24k > $10k?</div>
+                <div class="log-detail branch">Yes → taking the CSM path
+slack.postMessage({ channel: "#csm-team",
+  text: "New enterprise win: Acme Corp ($24k)" })
+salesforce.update({ csm: "Jordan Lee" })</div>
+              </div>
+            </div>
+
+            <div class="log-line">
+              <div class="log-ts">09:41:07</div>
+              <div class="log-body">
+                <div class="log-evt">Step 4 → tool call: gmail.send()</div>
+                <div class="log-detail ai">gmail.send({ from: "mike@company.com",
+  to: "sarah@acmecorp.com",
+  subject: "Welcome to [Co], Sarah!" })
+← delivered ✓</div>
+              </div>
+            </div>
+
+            <div class="log-line">
+              <div class="log-ts">09:41:08</div>
+              <div class="log-body">
+                <div class="log-evt">Step 5 → tool call: sheets.append()</div>
+                <div class="log-detail ok">sheets.append({ sheet: "Revenue 2026",
+  row: ["2026-05-29","Acme Corp","$24,000"] })
+← row added ✓</div>
+              </div>
+            </div>
+
+          </div>
+          <div class="run-footer">
+            <span class="run-meta">5 steps · 7 tool calls · 6.2s</span>
+            <span class="run-meta" style="color:#34D399;">All steps completed</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="cap-grid">
-      <div class="cap-card reveal">
-        <div class="cap-header"><div class="cap-icon">🗣️</div><h4>Natural Language Understanding <span class="ai-cap-tag">AI</span></h4></div>
-        <p>Interprets ambiguous instructions, resolves pronouns ("send it to them"), understands temporal context ("every Friday"), and infers missing steps your workflow needs.</p>
+  </div>
+</div>
+
+<!-- USE CASES -->
+<section id="use-cases">
+  <div class="eyebrow">Use cases</div>
+  <h2>Real workflows,<br><em>described in seconds.</em></h2>
+  <p class="sec-sub">Every team has repetitive processes that eat hours every week. Just write them down.</p>
+  <div class="tabs">
+    <button class="tab active" onclick="showUC(0,this)">Sales ops</button>
+    <button class="tab" onclick="showUC(1,this)">Customer success</button>
+    <button class="tab" onclick="showUC(2,this)">Marketing</button>
+    <button class="tab" onclick="showUC(3,this)">Engineering</button>
+  </div>
+
+  <div id="uc-0" class="uc-card">
+    <div>
+      <div class="uc-label">Sales ops</div>
+      <h3>Qualify and route every inbound lead automatically</h3>
+      <p>The moment a form lands, the agent enriches the contact, scores the lead, routes it to the right rep, and creates the Salesforce deal — all before your rep has opened their laptop.</p>
+      <a href="#" class="btn-primary">Try this workflow →</a>
+    </div>
+    <div class="flow-preview">
+      <div class="fstep"><div class="ficon">📝</div><div class="ftext"><div class="ftitle">Form submitted</div><div class="fdesc">Typeform, HubSpot, or any webhook</div></div></div>
+      <div class="fstep"><div class="ficon">🔍</div><div class="ftext"><div class="ftitle">Enrich with Clearbit</div><div class="fdesc">Company size, industry, tech stack</div></div><div class="fbadge">Tool call</div></div>
+      <div class="fstep"><div class="ficon">🎯</div><div class="ftext"><div class="ftitle">Agent scores and routes</div><div class="fdesc">Reasons: AE for high-fit, nurture for low</div></div><div class="fbadge">AI reasons</div></div>
+      <div class="fstep"><div class="ficon">☁️</div><div class="ftext"><div class="ftitle">Create Salesforce deal</div><div class="fdesc">Owner assigned, stage set, notes added</div></div><div class="fbadge">Tool call</div></div>
+      <div class="fstep"><div class="ficon">💬</div><div class="ftext"><div class="ftitle">Notify rep in Slack</div><div class="fdesc">Card with lead score and key context</div></div><div class="fbadge">Tool call</div></div>
+    </div>
+  </div>
+
+  <div id="uc-1" class="uc-card" style="display:none;">
+    <div>
+      <div class="uc-label">Customer success</div>
+      <h3>Full client onboarding the moment a deal closes</h3>
+      <p>Write "when a deal closes, create a Notion project, send a welcome email from the AE, and book a kickoff call." The agent does exactly that — every time, for every deal, tailored to the account size.</p>
+      <a href="#" class="btn-primary">Try this workflow →</a>
+    </div>
+    <div class="flow-preview">
+      <div class="fstep"><div class="ficon">🏆</div><div class="ftext"><div class="ftitle">Deal marked Closed Won</div><div class="fdesc">Salesforce trigger fires instantly</div></div></div>
+      <div class="fstep"><div class="ficon">📋</div><div class="ftext"><div class="ftitle">Create Notion onboarding</div><div class="fdesc">From template, client details pre-filled</div></div><div class="fbadge">Tool call</div></div>
+      <div class="fstep"><div class="ficon">📧</div><div class="ftext"><div class="ftitle">Send personalised welcome email</div><div class="fdesc">From the AE's Gmail, not a generic address</div></div><div class="fbadge">Tool call</div></div>
+      <div class="fstep"><div class="ficon">📅</div><div class="ftext"><div class="ftitle">Book kickoff call</div><div class="fdesc">Calendly invite, CSM auto-assigned by deal size</div></div><div class="fbadge">AI reasons</div></div>
+    </div>
+  </div>
+
+  <div id="uc-2" class="uc-card" style="display:none;">
+    <div>
+      <div class="uc-label">Marketing</div>
+      <h3>Publish once — distributed everywhere, formatted per platform</h3>
+      <p>Drop a blog post in Notion and write "when this is published, write a Twitter thread, a LinkedIn post, and an email excerpt, then schedule them." The agent reads the post and does it.</p>
+      <a href="#" class="btn-primary">Try this workflow →</a>
+    </div>
+    <div class="flow-preview">
+      <div class="fstep"><div class="ficon">📝</div><div class="ftext"><div class="ftitle">Post published in Notion</div><div class="fdesc">Status change triggers the agent</div></div></div>
+      <div class="fstep"><div class="ficon">🤖</div><div class="ftext"><div class="ftitle">Agent reads and understands it</div><div class="fdesc">Tone, key points, audience inferred</div></div><div class="fbadge">AI reads</div></div>
+      <div class="fstep"><div class="ficon">✍️</div><div class="ftext"><div class="ftitle">Writes channel variants</div><div class="fdesc">Twitter thread, LinkedIn post, email snippet</div></div><div class="fbadge">AI writes</div></div>
+      <div class="fstep"><div class="ficon">📨</div><div class="ftext"><div class="ftitle">Schedules in Buffer + SendGrid</div><div class="fdesc">Right format, right time, per platform</div></div><div class="fbadge">Tool call</div></div>
+    </div>
+  </div>
+
+  <div id="uc-3" class="uc-card" style="display:none;">
+    <div>
+      <div class="uc-label">Engineering</div>
+      <h3>Critical issue raised — team paged and incident open in seconds</h3>
+      <p>Write "when a GitHub issue is labelled critical, page the on-call in Slack, open a Linear incident, and create a Notion post-mortem." Done. Every single time.</p>
+      <a href="#" class="btn-primary">Try this workflow →</a>
+    </div>
+    <div class="flow-preview">
+      <div class="fstep"><div class="ficon">🐙</div><div class="ftext"><div class="ftitle">GitHub issue labelled "critical"</div><div class="fdesc">Webhook fires instantly</div></div></div>
+      <div class="fstep"><div class="ficon">🚨</div><div class="ftext"><div class="ftitle">Page on-call in Slack</div><div class="fdesc">@mention with issue title and link</div></div><div class="fbadge">Tool call</div></div>
+      <div class="fstep"><div class="ficon">📌</div><div class="ftext"><div class="ftitle">Open Linear incident</div><div class="fdesc">Linked to GitHub issue, team assigned</div></div><div class="fbadge">Tool call</div></div>
+      <div class="fstep"><div class="ficon">📋</div><div class="ftext"><div class="ftitle">Create Notion post-mortem</div><div class="fdesc">Template with timeline and issue details pre-filled</div></div><div class="fbadge">Tool call</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="full-bleed">
+  <div class="inner">
+    <div class="eyebrow">Under the hood</div>
+    <h2>What makes it<br><em>actually different.</em></h2>
+    <p class="sec-sub">Dugong isn't a visual builder with an "AI" button bolted on. The AI is the engine — it reads, reasons, and acts.</p>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-icon">🗣️</div>
+        <h4>Language is the interface</h4>
+        <p>Your description is the workflow. No canvas, no blocks, no config panels. The agent reads what you wrote and figures out the rest.</p>
       </div>
-      <div class="cap-card reveal">
-        <div class="cap-header"><div class="cap-icon">🔀</div><h4>AI-Generated Branching <span class="ai-cap-tag">AI</span></h4></div>
-        <p>Detects conditional logic — "if," "unless," "when," "depending on" — and auto-generates branching paths, edge-case handling, and fallback routes.</p>
+      <div class="feat">
+        <div class="feat-icon">🔀</div>
+        <h4>Conditional logic for free</h4>
+        <p>Write "if the deal is over $10k" or "unless they've already been contacted" — the agent understands the condition and branches accordingly, every run.</p>
       </div>
-      <div class="cap-card reveal">
-        <div class="cap-header"><div class="cap-icon">🛡️</div><h4>Predictive Error Prevention <span class="ai-cap-tag">AI</span></h4></div>
-        <p>Before your playbook runs, the AI simulates execution, predicts failure points, and pre-injects retry logic, rate-limit handling, and graceful degradation.</p>
+      <div class="feat">
+        <div class="feat-icon">🛡️</div>
+        <h4>Failures handled intelligently</h4>
+        <p>If a tool call fails, the agent doesn't just crash — it retries, tries an alternative approach, or flags the issue with full context. No silent breakages.</p>
       </div>
-      <div class="cap-card reveal">
-        <div class="cap-header"><div class="cap-icon">📈</div><h4>Self-Optimizing Playbooks <span class="ai-cap-tag">AI</span></h4></div>
-        <p>After every run, analyzes latency and success rates. Re-orders steps, adjusts thresholds, suggests improvements — your playbooks get smarter over time.</p>
+      <div class="feat">
+        <div class="feat-icon">🔌</div>
+        <h4>200+ tools, called directly</h4>
+        <p>Mention Gmail, Slack, Salesforce, or Notion — the agent knows how to call them. No manual API setup. No OAuth headaches. Just name it.</p>
       </div>
-      <div class="cap-card reveal">
-        <div class="cap-header"><div class="cap-icon">🔌</div><h4>AI Integration Resolver <span class="ai-cap-tag">AI</span></h4></div>
-        <p>Mention "send an email" and the AI maps to Gmail. Say "update the CRM" and it picks Salesforce. Auto-detects 200+ tools from your natural language.</p>
+      <div class="feat">
+        <div class="feat-icon">🧠</div>
+        <h4>Context carried across steps</h4>
+        <p>Each step isn't isolated. The agent carries context from what it learned in previous steps — so it can personalise, adapt, and make sensible decisions throughout.</p>
       </div>
-      <div class="cap-card reveal">
-        <div class="cap-header"><div class="cap-icon">👁️</div><h4>AI Run Monitoring <span class="ai-cap-tag">AI</span></h4></div>
-        <p>An AI agent watches every execution in real time. Catches anomalies, pauses suspicious runs, alerts your team, and auto-remediates common failures.</p>
+      <div class="feat">
+        <div class="feat-icon">👁️</div>
+        <h4>Full visibility into every run</h4>
+        <p>Every tool call, every decision, every piece of data — logged in plain language so you always know exactly what the agent did and why.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- COMPARISON -->
-<section class="bg-alt">
-  <div class="comparison">
-    <div style="text-align:center" class="reveal">
-      <span class="section-label" style="justify-content:center"><span class="ai-dot"></span> Why Dugong</span>
-      <h2 class="section-title" style="margin:0 auto">Legacy tools automate. <em>Dugong thinks.</em></h2>
-    </div>
-    <div class="compare-table reveal">
-      <div class="compare-row header">
-        <div class="compare-cell label"></div>
-        <div class="compare-cell">Others</div>
-        <div class="compare-cell dugong-col">Dugong AI</div>
-      </div>
-      <div class="compare-row"><div class="compare-cell label">Workflow input</div><div class="compare-cell"><span class="x">✗</span> Drag-and-drop</div><div class="compare-cell dugong-col"><span class="check">✦</span> Natural language</div></div>
-      <div class="compare-row"><div class="compare-cell label">Error handling</div><div class="compare-cell"><span class="x">✗</span> Manual config</div><div class="compare-cell dugong-col"><span class="check">✦</span> AI auto-injected</div></div>
-      <div class="compare-row"><div class="compare-cell label">Branching logic</div><div class="compare-cell"><span class="x">✗</span> You build it</div><div class="compare-cell dugong-col"><span class="check">✦</span> AI-generated from text</div></div>
-      <div class="compare-row"><div class="compare-cell label">Integration wiring</div><div class="compare-cell"><span class="x">✗</span> Manual API keys</div><div class="compare-cell dugong-col"><span class="check">✦</span> AI auto-resolved</div></div>
-      <div class="compare-row"><div class="compare-cell label">Self-optimization</div><div class="compare-cell"><span class="x">✗</span> Static forever</div><div class="compare-cell dugong-col"><span class="check">✦</span> Learns from every run</div></div>
-      <div class="compare-row"><div class="compare-cell label">Failure recovery</div><div class="compare-cell"><span class="x">✗</span> Breaks silently</div><div class="compare-cell dugong-col"><span class="check">✦</span> AI auto-remediates</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
 <section>
-  <div class="stats">
-    <div class="stat reveal"><div class="num">94%</div><div class="label">AI accuracy on first compile</div></div>
-    <div class="stat reveal"><div class="num">12x</div><div class="label">Faster than manual setup</div></div>
-    <div class="stat reveal"><div class="num">3.2M</div><div class="label">AI-powered runs / month</div></div>
-    <div class="stat reveal"><div class="num">67%</div><div class="label">Fewer failures with AI shield</div></div>
+  <div class="eyebrow">Why Dugong</div>
+  <h2>Other tools automate.<br><em>Dugong understands.</em></h2>
+  <p class="sec-sub">The difference isn't features — it's whether you're configuring a tool or just telling it what to do.</p>
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>Traditional automation tools</th>
+        <th>Dugong</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Creating a workflow</td>
+        <td><span class="xm">✗</span> Drag blocks, wire connections, configure each one</td>
+        <td><span class="cm">✓</span> Write it in plain English — the agent handles the rest</td>
+      </tr>
+      <tr>
+        <td>Conditional logic</td>
+        <td><span class="xm">✗</span> Add filter nodes, set field rules manually</td>
+        <td><span class="cm">✓</span> Write "if" — the agent reasons and branches live</td>
+      </tr>
+      <tr>
+        <td>Connecting apps</td>
+        <td><span class="xm">✗</span> OAuth per app, manual field mapping per step</td>
+        <td><span class="cm">✓</span> Mention the app name — already wired</td>
+      </tr>
+      <tr>
+        <td>When something breaks</td>
+        <td><span class="xm">✗</span> Silent fail — you find out from a user complaint</td>
+        <td><span class="cm">✓</span> Agent retries, adapts, and explains what happened</td>
+      </tr>
+      <tr>
+        <td>Handling edge cases</td>
+        <td><span class="xm">✗</span> You have to anticipate and build every path upfront</td>
+        <td><span class="cm">✓</span> Agent reasons through unexpected situations on the fly</td>
+      </tr>
+      <tr>
+        <td>Time to first workflow</td>
+        <td><span class="xm">✗</span> 30–90 minutes of setup and testing</td>
+        <td><span class="cm">✓</span> Under 5 minutes — just write it and run it</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="stats-grid">
+    <div class="stat"><div class="stat-num">94<span>%</span></div><div class="stat-lbl">Steps executed correctly first run</div></div>
+    <div class="stat"><div class="stat-num">12<span>×</span></div><div class="stat-lbl">Faster than building manually</div></div>
+    <div class="stat"><div class="stat-num">3.2<span>M</span></div><div class="stat-lbl">Agent-powered runs per month</div></div>
+    <div class="stat"><div class="stat-num">67<span>%</span></div><div class="stat-lbl">Fewer failures vs rule-based tools</div></div>
   </div>
 </section>
 
 <!-- INTEGRATIONS -->
-<section class="bg-alt">
-  <div class="integrations reveal">
-    <span class="section-label" style="justify-content:center"><span class="ai-dot"></span> AI-Resolved Integrations</span>
-    <h2 class="section-title" style="margin:0 auto">Mention the app. <em>AI wires it up.</em></h2>
-    <p class="desc">Just type an app's name in your step — Dugong's AI auto-detects it, resolves the API, handles auth, and maps your data. Zero manual config.</p>
-    <div class="logo-cloud">
-      <div class="int-logo"><span class="emoji">📧</span><span>Gmail</span></div>
-      <div class="int-logo"><span class="emoji">💬</span><span>Slack</span></div>
-      <div class="int-logo"><span class="emoji">☁️</span><span>Salesforce</span></div>
-      <div class="int-logo"><span class="emoji">💳</span><span>Stripe</span></div>
-      <div class="int-logo"><span class="emoji">📝</span><span>Notion</span></div>
-      <div class="int-logo"><span class="emoji">🐙</span><span>GitHub</span></div>
-      <div class="int-logo"><span class="emoji">📊</span><span>HubSpot</span></div>
-      <div class="int-logo"><span class="emoji">📦</span><span>Shopify</span></div>
-      <div class="int-logo"><span class="emoji">🗂️</span><span>Airtable</span></div>
-      <div class="int-logo"><span class="emoji">📨</span><span>SendGrid</span></div>
-      <div class="int-logo"><span class="emoji">📗</span><span>Sheets</span></div>
-      <div class="int-logo"><span class="emoji">☁️</span><span>AWS</span></div>
-    </div>
+<section id="integrations" class="int-section">
+  <div class="eyebrow">200+ integrations</div>
+  <h2>If you can name it,<br><em>the agent can call it.</em></h2>
+  <p class="sec-sub" style="margin:0 auto;">Just write the app name in your steps. The agent handles auth, API calls, and data mapping automatically.</p>
+  <div class="int-grid">
+    <div class="ichip">📧 Gmail</div>
+    <div class="ichip">💬 Slack</div>
+    <div class="ichip">☁️ Salesforce</div>
+    <div class="ichip">💳 Stripe</div>
+    <div class="ichip">📝 Notion</div>
+    <div class="ichip">🐙 GitHub</div>
+    <div class="ichip">📊 HubSpot</div>
+    <div class="ichip">📦 Shopify</div>
+    <div class="ichip">🗂️ Airtable</div>
+    <div class="ichip">📨 SendGrid</div>
+    <div class="ichip">📗 Google Sheets</div>
+    <div class="ichip">☁️ AWS</div>
+    <div class="ichip">📌 Linear</div>
+    <div class="ichip">📅 Google Calendar</div>
+    <div class="ichip">🔍 Clearbit</div>
+    <div class="ichip more">+ 185 more →</div>
   </div>
 </section>
 
 <!-- PRICING -->
-<section id="pricing">
-  <div class="pricing">
-    <div class="reveal">
-      <span class="section-label" style="justify-content:center"><span class="ai-dot"></span> Pricing</span>
-      <h2 class="section-title" style="margin:0 auto">AI-powered from day one. <em>Free to start.</em></h2>
-    </div>
-    <div class="pricing-grid">
-      <div class="price-card reveal">
-        <div class="price-tier">Starter</div>
-        <div class="price-amount">$0 <span>/mo</span></div>
-        <p class="price-desc">For individuals exploring AI workflow automation.</p>
-        <ul class="price-features">
-          <li>5 AI-compiled playbooks</li>
-          <li>500 AI-powered runs / mo</li>
-          <li class="ai-feat">AI natural language builder</li>
-          <li>Core integrations</li>
+<section class="full-bleed" id="pricing">
+  <div class="inner">
+    <div class="eyebrow center">Pricing</div>
+    <h2 class="center">Simple pricing.<br><em>Free to start.</em></h2>
+    <p class="sec-sub center" style="margin:0 auto;">No credit card required. Upgrade when your workflows grow.</p>
+    <div class="price-grid">
+      <div class="pcard">
+        <div class="pname">Starter</div>
+        <div class="pprice">$0 <span>/mo</span></div>
+        <div class="pdesc">For individuals automating personal workflows and side projects.</div>
+        <hr class="pdiv"/>
+        <ul class="pfeat">
+          <li>5 active workflows</li>
+          <li>500 agent runs per month</li>
+          <li>Plain English workflow builder</li>
+          <li>20 core integrations</li>
+          <li>Full run logs and history</li>
           <li>Community support</li>
         </ul>
-        <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center">Get started</a>
+        <a href="#" class="btn-secondary" style="width:100%;justify-content:center;">Get started free</a>
       </div>
-      <div class="price-card featured reveal">
-        <div class="price-tier">Pro</div>
-        <div class="price-amount">$39 <span>/mo</span></div>
-        <p class="price-desc">For teams running real AI-automated workflows.</p>
-        <ul class="price-features">
-          <li>Unlimited AI playbooks</li>
-          <li>10,000 AI runs / mo</li>
-          <li class="ai-feat">AI self-optimization</li>
-          <li class="ai-feat">AI error shield</li>
+      <div class="pcard featured">
+        <div class="pfeatbadge">Most popular</div>
+        <div class="pname">Pro</div>
+        <div class="pprice"><sup>$</sup>39 <span>/mo</span></div>
+        <div class="pdesc">For teams running real automated workflows across their full stack.</div>
+        <hr class="pdiv"/>
+        <ul class="pfeat">
+          <li>Unlimited workflows</li>
+          <li>10,000 agent runs per month</li>
           <li>All 200+ integrations</li>
+          <li>Multi-step agent reasoning</li>
+          <li>Automatic retry and failure handling</li>
           <li>Priority support</li>
         </ul>
-        <a href="#" class="btn btn-accent">Start free trial</a>
+        <a href="#" class="btn-primary" style="width:100%;justify-content:center;">Start 14-day free trial →</a>
       </div>
-      <div class="price-card reveal">
-        <div class="price-tier">Enterprise</div>
-        <div class="price-amount">Custom</div>
-        <p class="price-desc">For orgs needing advanced AI + security.</p>
-        <ul class="price-features">
+      <div class="pcard">
+        <div class="pname">Enterprise</div>
+        <div class="pprice" style="font-size:32px;letter-spacing:-1px;padding-top:8px;">Custom</div>
+        <div class="pdesc">For organisations needing custom models, security controls, and a dedicated partner.</div>
+        <hr class="pdiv"/>
+        <ul class="pfeat">
           <li>Unlimited everything</li>
-          <li class="ai-feat">Custom AI model tuning</li>
-          <li class="ai-feat">AI anomaly detection</li>
-          <li>SSO &amp; SAML</li>
-          <li>Dedicated AI support</li>
-          <li>SLA &amp; on-prem option</li>
+          <li>Custom AI model tuning</li>
+          <li>SSO and SAML</li>
+          <li>Audit logs and permissions</li>
+          <li>On-prem deployment option</li>
+          <li>Dedicated success manager</li>
         </ul>
-        <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center">Contact sales</a>
+        <a href="#" class="btn-secondary" style="width:100%;justify-content:center;">Talk to sales</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="cta-section reveal">
-  <h2>Stop building workflows.<br>Let <em>AI build them for you.</em></h2>
-  <p>Join 4,000+ teams who replaced drag-and-drop with natural language. Describe your trigger, type your steps — Dugong's AI handles everything else.</p>
-  <div class="cta-input">
-    <input type="email" placeholder="Enter your work email">
-    <a href="#" class="btn btn-accent">Get AI access</a>
-  </div>
-</section>
+<div class="cta-strip">
+  <h2>Stop configuring.<br>Start describing.</h2>
+  <p>Join 4,000+ teams who shipped their first automation in under five minutes — just by writing it down.</p>
+  <a href="#" class="btn-white">Get started free — no credit card →</a>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <a href="#" class="logo">
-    <div class="logo-icon" style="width:28px;height:28px;border-radius:7px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"/><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"/><path d="M3 12h18"/></svg></div>
-    dugong
-  </a>
-  <div class="footer-links">
-    <a href="#">Docs</a><a href="#">AI Research</a><a href="#">Blog</a><a href="#">Careers</a><a href="#">Privacy</a><a href="#">Terms</a>
+  <div class="ft-top">
+    <div class="ft-brand">
+      <a href="#" class="nav-logo">
+        <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"></path><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"></path><path d="M3 12h18"></path></svg></div>
+        <span class="logo-text">dugong</span>
+      </a>
+      <p class="ft-tagline">AI-native workflow automation. Describe what you need — an agent does the rest.</p>
+    </div>
+    <div class="ft-col">
+      <h5>Product</h5>
+      <ul>
+        <li><a href="#">How it works</a></li>
+        <li><a href="#">Use cases</a></li>
+        <li><a href="#">Integrations</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Changelog</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Templates</a></li>
+        <li><a href="#">Help centre</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Security</a></li>
+      </ul>
+    </div>
   </div>
-  <span class="footer-copy">© 2026 Dugong AI Inc.</span>
+  <div class="ft-bottom">
+    <p>© 2026 Dugong AI Inc. All rights reserved.</p>
+    <p style="color:#333;">Made for teams who hate busywork</p>
+  </div>
 </footer>
 
 <script>
-const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+function showUC(i, btn) {
+  [0,1,2,3].forEach(n => {
+    const el = document.getElementById('uc-'+n);
+    if (el) el.style.display = n===i ? 'grid' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
 </script>
 </body>
 </html>
