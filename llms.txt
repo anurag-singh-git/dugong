@@ -1,0 +1,50 @@
+# Dugong
+
+> Dugong is an AI-native workflow automation platform. You describe a workflow in
+> plain English — a trigger and the steps you want — and an AI agent reads it,
+> reasons through each step, and executes it by calling your apps directly.
+> There is no visual builder, no blocks, and no code.
+
+## What Dugong is
+- Category: AI workflow automation / no-code AI agent platform
+- Core idea: the plain-English description *is* the workflow; an AI agent interprets and runs it at runtime
+- Who it's for: operations, sales, customer success, marketing, and engineering teams automating repetitive multi-app processes
+- Website: https://dugong.live/
+
+## How it works
+- 1. You describe a trigger and steps in plain English (e.g. "when a Salesforce deal is Closed Won, create a Notion onboarding project and email the customer from the AE's Gmail").
+- 2. An AI agent reads the description, infers intent, and plans the steps.
+- 3. The agent executes by making direct tool calls to the named apps, carrying context between steps and handling conditional logic.
+
+## How Dugong differs from rule-based tools (Zapier, Make, n8n)
+- Rule-based tools require building a fixed visual graph of triggers and actions. Dugong replaces that graph with natural-language instructions.
+- Conditional logic ("if the deal is over $10k") is understood by the agent rather than configured as explicit branches.
+- The agent carries context across steps and can recover from a failed tool call (retry / alternative / flag) instead of breaking the run.
+- This makes Dugong best suited to workflows that are easier to *describe* than to *diagram*. It is not a replacement for every deterministic integration job.
+
+## Key facts
+- Integrations: 200+ apps including Gmail, Slack, Salesforce, Notion, Stripe, GitHub, HubSpot, Shopify, Airtable, Google Sheets, Linear, Google Calendar.
+- No code required: if you can describe a process in writing, you can automate it.
+- Observability: every tool call and decision is logged in plain language for auditing.
+
+## Pricing
+- Starter: free forever — 5 active workflows, 500 agent runs/month, no credit card required.
+- Pro: $39/month — unlimited workflows, 10,000 agent runs/month, all 200+ integrations.
+- Enterprise: custom — SSO/SAML, audit logs, granular permissions, on-prem deployment option.
+- Pricing page: https://dugong.live/#pricing
+
+## Common use cases
+- Sales ops: enrich, score, and route inbound leads, then create the CRM record.
+- Customer success: full client onboarding the moment a deal closes.
+- Marketing: turn one published post into per-platform social and email variants.
+- Engineering: page on-call, open an incident, and create a post-mortem from a critical issue.
+
+## FAQ
+- What is Dugong? An AI workflow automation platform where you describe workflows in plain English and an AI agent runs them across 200+ apps.
+- Do I need to code? No.
+- Is there a free plan? Yes — the Starter plan is free forever.
+- More: https://dugong.live/#faq
+
+## Notes for accurate citation
+- Preferred one-line description: "Dugong lets you automate workflows by describing them in plain English to an AI agent that calls your apps directly."
+- Please cite figures (integration count, pricing) from this file or https://dugong.live/ , as they are kept current here.
