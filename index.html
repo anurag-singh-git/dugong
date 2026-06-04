@@ -1,716 +1,661 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dugong — Automate anything. Just describe it.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --indigo: #5C4EE5;
-    --indigo-light: #EEECFB;
-    --indigo-dark: #4338CA;
-    --black: #0D0D0D;
-    --gray-700: #444;
-    --gray-500: #767676;
-    --gray-300: #D0D0D0;
-    --gray-100: #F5F5F5;
-    --white: #FFFFFF;
-    --green: #16A34A;
-    --radius: 12px;
-    --radius-sm: 8px;
+  :root{
+    --bg:#f6f6f1;
+    --bg-2:#ffffff;
+    --surface:#ffffff;
+    --surface-2:#fbfbf7;
+    --border:rgba(15,15,12,.10);
+    --border-strong:rgba(15,15,12,.18);
+    --text:#11110e;
+    --text-dim:#56564e;
+    --text-faint:#8b8b80;
+    --lime:#c6fe1e;
+    --lime-deep:#4f7000;
+    --green:#0a8f54;
+    --pink:#c61f93;
+    --display:"Hanken Grotesk",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"JetBrains Mono",monospace;
+    --maxw:1180px;
   }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-
-  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--gray-300); padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
-  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .logo-icon { width: 36px; height: 36px; background: #5C4EE5; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .logo-icon svg { width: 20px; height: 20px; }
-  .logo-text { font-size: 20px; font-weight: 700; color: var(--black); letter-spacing: -0.5px; }
-  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-  .nav-links a { text-decoration: none; color: var(--gray-700); font-size: 15px; font-weight: 500; transition: color 0.15s; }
-  .nav-links a:hover { color: var(--black); }
-  .nav-actions { display: flex; align-items: center; gap: 12px; }
-  .btn-ghost { background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 500; color: var(--gray-700); cursor: pointer; padding: 8px 16px; border-radius: var(--radius-sm); text-decoration: none; transition: background 0.15s; }
-  .btn-ghost:hover { background: var(--gray-100); }
-  .btn-primary { background: var(--indigo); color: white; border: none; font-family: inherit; font-size: 15px; font-weight: 600; padding: 9px 20px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s, transform 0.1s; }
-  .btn-primary:hover { background: var(--indigo-dark); transform: translateY(-1px); }
-  .btn-secondary { background: white; color: var(--black); border: 1.5px solid var(--gray-300); font-family: inherit; font-size: 15px; font-weight: 600; padding: 9px 20px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: border-color 0.15s, background 0.15s; }
-  .btn-secondary:hover { border-color: var(--black); background: var(--gray-100); }
-
-  .hero { padding: 96px 48px 80px; text-align: center; max-width: 900px; margin: 0 auto; }
-  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--indigo-light); color: var(--indigo-dark); font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 100px; margin-bottom: 28px; }
-  h1 { font-size: clamp(40px, 6vw, 68px); font-weight: 700; line-height: 1.08; letter-spacing: -2px; color: var(--black); margin-bottom: 24px; }
-  h1 em { font-family: 'DM Serif Display', serif; font-style: italic; color: var(--indigo); }
-  .hero-sub { font-size: 20px; color: var(--gray-500); max-width: 560px; margin: 0 auto 40px; line-height: 1.55; }
-  .hero-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 64px; }
-  .hero-actions .btn-primary, .hero-actions .btn-secondary { font-size: 16px; padding: 13px 28px; }
-  .trusted-row { display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; }
-  .trusted-label { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.8px; }
-  .trusted-logos { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
-  .trusted-logos span { font-size: 14px; font-weight: 700; color: var(--gray-300); }
-
-  section { padding: 96px 48px; max-width: 1120px; margin: 0 auto; }
-  .full-bleed { max-width: 100%; padding: 96px 0; background: var(--gray-100); }
-  .full-bleed .inner { max-width: 1120px; margin: 0 auto; padding: 0 48px; }
-  .eyebrow { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--indigo); margin-bottom: 16px; }
-  h2 { font-size: clamp(30px, 4vw, 46px); font-weight: 700; letter-spacing: -1.5px; line-height: 1.1; color: var(--black); margin-bottom: 16px; }
-  h2 em { font-family: 'DM Serif Display', serif; font-style: italic; color: var(--indigo); }
-  .sec-sub { font-size: 18px; color: var(--gray-500); max-width: 560px; line-height: 1.55; }
-  .center { text-align: center; }
-
-  .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 56px; }
-  .step-card { background: white; border: 1px solid var(--gray-300); border-radius: var(--radius); padding: 32px; transition: box-shadow 0.2s, border-color 0.2s; }
-  .step-card:hover { border-color: var(--gray-700); box-shadow: 0 8px 32px rgba(0,0,0,0.07); }
-  .step-num { font-size: 12px; font-weight: 700; color: var(--gray-300); letter-spacing: 1px; margin-bottom: 20px; }
-  .step-icon { width: 44px; height: 44px; background: var(--indigo-light); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: var(--indigo); }
-  .step-card h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 10px; }
-  .step-card p { font-size: 15px; color: var(--gray-500); line-height: 1.6; }
-
-  .demo-section { background: var(--black); padding: 96px 48px; }
-  .demo-section .eyebrow { color: #7C6FF0; }
-  .demo-section h2 { color: white; }
-  .demo-section .sec-sub { color: #888; }
-  .demo-inner { max-width: 1120px; margin: 0 auto; }
-  .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 56px; align-items: start; }
-  .panel { border-radius: var(--radius); overflow: hidden; }
-  .panel-header { background: #1A1A1A; padding: 14px 20px; display: flex; align-items: center; gap: 6px; }
-  .panel-header .plabel { font-size: 13px; font-weight: 600; color: #666; margin-left: 6px; }
-  .pdot { width: 8px; height: 8px; border-radius: 50%; }
-  .pdot.r { background: #FF5F57; } .pdot.y { background: #FEBC2E; } .pdot.g { background: #28C840; }
-  .panel-body { background: #111; padding: 24px; }
-  .plabel2 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 10px; }
-  .trigger-block { background: #0F0E1F; border: 1px solid #2A2350; border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 20px; }
-  .trigger-tag { font-size: 11px; font-weight: 700; color: var(--indigo); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
-  .trigger-text { color: #E0E0E0; font-size: 14px; line-height: 1.5; }
-  .nl-step { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
-  .nl-num { min-width: 22px; height: 22px; background: #2A2A2A; color: #888; font-size: 11px; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-  .nl-text { color: #CCC; font-size: 14px; line-height: 1.5; }
-  .apill { display: inline; background: #2A2A2A; border-radius: 4px; padding: 1px 6px; font-size: 12px; font-weight: 600; color: #CCC; }
-
-  .run-panel .panel-body { background: #0A0A0A; padding: 0; }
-  .run-header { padding: 16px 20px; border-bottom: 1px solid #1E1E1E; display: flex; align-items: center; justify-content: space-between; }
-  .run-title { font-size: 13px; font-weight: 600; color: #DDD; display: flex; align-items: center; gap: 8px; }
-  .run-dot { width: 8px; height: 8px; border-radius: 50%; background: #5C4EE5; animation: pulse 1.2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  .run-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .run-badge.live { background: #0E2E1A; color: #34D399; }
-  .run-badge.done { background: #0E2E1A; color: #34D399; }
-  .run-log { padding: 16px 20px; }
-  .log-line { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
-  .log-ts { font-size: 11px; color: #444; font-family: monospace; flex-shrink: 0; padding-top: 1px; }
-  .log-body { flex: 1; }
-  .log-evt { font-size: 13px; color: #888; margin-bottom: 4px; font-family: monospace; }
-  .log-detail { border-left: 2px solid #2A2A2A; padding: 6px 10px; border-radius: 0 4px 4px 0; font-size: 11px; font-family: monospace; line-height: 1.6; color: #555; white-space: pre-wrap; }
-  .log-detail.ok { border-left-color: #34D399; color: #34D399; }
-  .log-detail.ai { border-left-color: var(--indigo); color: #7C6FF0; }
-  .log-detail.branch { border-left-color: #60A5FA; color: #60A5FA; }
-  .run-footer { border-top: 1px solid #1E1E1E; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .run-meta { font-size: 12px; color: #444; font-family: monospace; }
-
-  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 48px 0 40px; }
-  .tab { background: white; border: 1.5px solid var(--gray-300); border-radius: 100px; padding: 8px 20px; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--gray-700); cursor: pointer; transition: all 0.15s; }
-  .tab.active, .tab:hover { background: var(--black); border-color: var(--black); color: white; }
-  .uc-card { background: var(--gray-100); border-radius: var(--radius); padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-  .uc-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--indigo); margin-bottom: 12px; }
-  .uc-card h3 { font-size: 26px; font-weight: 700; letter-spacing: -0.6px; margin-bottom: 16px; line-height: 1.2; }
-  .uc-card > div > p { font-size: 15px; color: var(--gray-500); line-height: 1.6; margin-bottom: 24px; }
-  .flow-preview { background: white; border-radius: var(--radius); padding: 24px; border: 1px solid var(--gray-300); }
-  .fstep { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
-  .fstep:last-child { border-bottom: none; padding-bottom: 0; }
-  .ficon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--gray-100); color: var(--gray-700); }
-  .ftext { flex: 1; }
-  .ftitle { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-  .fdesc { font-size: 12px; color: var(--gray-500); }
-  .fbadge { font-size: 11px; font-weight: 700; color: var(--indigo); background: var(--indigo-light); padding: 2px 8px; border-radius: 4px; align-self: center; white-space: nowrap; }
-
-  .feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--gray-300); border-radius: var(--radius); overflow: hidden; margin-top: 56px; }
-  .feat { background: white; padding: 32px; transition: background 0.15s; }
-  .feat:hover { background: var(--indigo-light); }
-  .feat-icon { width: 40px; height: 40px; background: var(--black); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: white; }
-  .feat h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
-  .feat p { font-size: 14px; color: var(--gray-500); line-height: 1.6; }
-
-  .cmp-table { width: 100%; border-collapse: collapse; margin-top: 56px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--gray-300); }
-  .cmp-table thead { background: var(--black); }
-  .cmp-table thead th { padding: 20px 28px; font-size: 14px; font-weight: 700; color: white; text-align: left; }
-  .cmp-table thead th:nth-child(2) { color: #888; }
-  .cmp-table thead th:nth-child(3) { color: var(--indigo); }
-  .cmp-table tbody tr:nth-child(even) { background: var(--gray-100); }
-  .cmp-table td { padding: 16px 28px; font-size: 15px; color: var(--gray-700); border-bottom: 1px solid var(--gray-300); }
-  .cmp-table tbody tr:last-child td { border-bottom: none; }
-  .cmp-table td:first-child { font-weight: 600; color: var(--black); }
-  .xm { color: var(--gray-300); font-weight: 700; }
-  .cm { color: var(--green); font-weight: 700; }
-
-  .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; background: var(--gray-300); border-radius: var(--radius); overflow: hidden; margin-top: 48px; }
-  .stat { background: var(--black); padding: 40px 32px; text-align: center; }
-  .stat-num { font-size: 48px; font-weight: 700; color: white; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
-  .stat-num span { color: var(--indigo); }
-  .stat-lbl { font-size: 14px; color: #666; font-weight: 500; }
-
-  .int-section { text-align: center; }
-  .int-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 48px; max-width: 720px; margin-left: auto; margin-right: auto; }
-  .ichip { background: white; border: 1px solid var(--gray-300); border-radius: 100px; padding: 10px 20px; font-size: 14px; font-weight: 600; color: var(--gray-700); display: inline-flex; align-items: center; gap: 8px; transition: border-color 0.15s, transform 0.15s; cursor: default; line-height: 1; }
-  .ichip:hover { border-color: var(--black); color: var(--black); transform: translateY(-2px); }
-  .ichip.more { background: var(--indigo-light); border-color: transparent; color: var(--indigo-dark); }
-
-  .price-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 56px; align-items: start; }
-  .pcard { background: white; border: 1px solid var(--gray-300); border-radius: var(--radius); padding: 36px; transition: box-shadow 0.2s; }
-  .pcard:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
-  .pcard.featured { border: 2px solid var(--black); position: relative; }
-  .pfeatbadge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--black); color: white; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
-  .pname { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-500); margin-bottom: 16px; }
-  .pprice { font-size: 48px; font-weight: 700; color: var(--black); letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
-  .pprice sup { font-size: 24px; vertical-align: top; margin-top: 10px; font-weight: 600; letter-spacing: 0; }
-  .pprice span { font-size: 16px; font-weight: 500; color: var(--gray-500); letter-spacing: 0; }
-  .pdesc { font-size: 14px; color: var(--gray-500); margin-bottom: 28px; line-height: 1.5; }
-  .pdiv { border: none; border-top: 1px solid var(--gray-300); margin-bottom: 24px; }
-  .pfeat { list-style: none; margin-bottom: 32px; }
-  .pfeat li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--gray-700); margin-bottom: 12px; line-height: 1.4; }
-  .pfeat li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
-
-  .cta-strip { background: var(--indigo); padding: 80px 48px; text-align: center; }
-  .cta-strip h2 { color: white; margin-bottom: 16px; }
-  .cta-strip p { color: rgba(255,255,255,0.8); font-size: 18px; margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto; }
-  .btn-white { background: white; color: var(--indigo-dark); border: none; font-family: inherit; font-size: 16px; font-weight: 700; padding: 14px 32px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.1s, box-shadow 0.15s; }
-  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
-
-  footer { background: var(--black); padding: 64px 48px 32px; }
-  .ft-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
-  .ft-brand .logo-text { color: white; }
-  .ft-tagline { font-size: 14px; color: #555; margin-top: 16px; line-height: 1.6; max-width: 260px; }
-  .ft-col h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 20px; }
-  .ft-col ul { list-style: none; }
-  .ft-col ul li { margin-bottom: 12px; }
-  .ft-col ul li a { font-size: 14px; color: #888; text-decoration: none; transition: color 0.15s; }
-  .ft-col ul li a:hover { color: white; }
-  .ft-bottom { border-top: 1px solid #1F1F1F; padding-top: 32px; display: flex; align-items: center; justify-content: space-between; }
-  .ft-bottom p { font-size: 13px; color: #444; }
-
-  @media (max-width: 768px) {
-    nav { padding: 0 20px; }
-    .nav-links { display: none; }
-    .hero, .demo-section, .cta-strip { padding-left: 24px; padding-right: 24px; }
-    section { padding: 64px 24px; }
-    .full-bleed .inner { padding: 0 24px; }
-    .steps-grid, .price-grid, .feat-grid, .demo-grid, .uc-card { grid-template-columns: 1fr; }
-    .stats-grid { grid-template-columns: repeat(2,1fr); }
-    .ft-top { grid-template-columns: 1fr; gap: 32px; }
-    .cmp-table td, .cmp-table thead th { padding: 12px 16px; font-size: 13px; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--lime);color:#11110e}
+
+  /* atmospheric background */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(900px 520px at 75% -10%, rgba(198,254,30,.32), transparent 60%),
+      radial-gradient(720px 520px at 4% 10%, rgba(198,254,30,.14), transparent 58%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.6;pointer-events:none;
+    background-image:linear-gradient(rgba(15,15,12,.045) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(15,15,12,.045) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(circle at 50% 0%, #000 0%, transparent 72%);
+            mask-image:radial-gradient(circle at 50% 0%, #000 0%, transparent 72%);
+  }
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---- nav ---- */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+    background:rgba(246,246,241,.72);border-bottom:1px solid var(--border)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .logo{display:flex;align-items:center;gap:9px;font-family:var(--display);
+    font-weight:800;font-size:21px;letter-spacing:-.02em}
+  .logo .logo-icon{width:26px;height:26px;border-radius:8px;background:#11110e;
+    display:grid;place-items:center;flex:none}
+  .logo .logo-icon svg{width:16px;height:16px}
+  .nav-links{display:flex;gap:30px;font-size:14.5px;color:var(--text-dim)}
+  .nav-links a{transition:color .2s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{display:flex;align-items:center;gap:18px}
+  .nav-cta .login{font-size:14.5px;color:var(--text-dim);transition:color .2s}
+  .nav-cta .login:hover{color:var(--text)}
+  .btn{font-family:var(--display);font-weight:700;font-size:14.5px;border-radius:10px;
+    padding:10px 18px;display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+    border:1px solid transparent;transition:transform .15s ease,background .2s,box-shadow .2s;white-space:nowrap}
+  .btn-primary{background:var(--lime);color:#11110e;box-shadow:0 0 0 0 rgba(168,224,0,.5)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 28px -8px rgba(168,224,0,.7)}
+  .btn-ghost{background:var(--surface);color:var(--text);border-color:var(--border-strong)}
+  .btn-ghost:hover{background:#fff;transform:translateY(-1px);border-color:var(--text)}
+  @media(max-width:880px){.nav-links{display:none}}
+
+  /* ---- shared section bits ---- */
+  section{position:relative}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);
+    font-weight:700;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--lime-deep);border:1px solid rgba(168,224,0,.5);background:rgba(198,254,30,.22);
+    padding:6px 13px;border-radius:100px}
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime-deep)}
+  h2.headline{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:1.04;
+    font-size:clamp(30px,4.4vw,52px);margin:20px 0 16px}
+  h2.headline em{font-style:normal;color:var(--text-faint)}
+  .sec-sub{color:var(--text-dim);font-size:17px;max-width:560px}
+  .sec-head{margin-bottom:54px}
+  .sec-head.center{text-align:center;display:flex;flex-direction:column;align-items:center}
+
+  /* ---- hero ---- */
+  .hero{padding:72px 0 40px;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .hero h1{font-family:var(--display);font-weight:800;letter-spacing:-.035em;line-height:1;
+    font-size:clamp(42px,7vw,84px);margin:26px 0 22px;max-width:14ch}
+  .hero h1 em{font-style:normal;position:relative;white-space:nowrap}
+  .hero h1 em::after{content:"";position:absolute;left:-.06em;right:-.06em;bottom:.08em;height:.36em;
+    background:var(--lime);z-index:-1;border-radius:3px;transform:rotate(-.6deg)}
+  .hero p.lead{color:var(--text-dim);font-size:clamp(16px,2vw,19px);max-width:620px;margin-bottom:34px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+  .btn-lg{padding:14px 26px;font-size:16px;border-radius:12px}
+
+  /* trusted marquee */
+  .trusted{margin-top:62px;width:100%}
+  .trusted .label{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:22px;font-family:var(--display);font-weight:600}
+  .marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+           mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+  .marquee-track{display:flex;gap:62px;width:max-content;animation:scroll 26s linear infinite}
+  .marquee-track span{font-family:var(--display);font-weight:700;font-size:23px;color:var(--text-faint);
+    letter-spacing:-.01em;white-space:nowrap}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  /* ---- the split demo panel ---- */
+  .demo{padding:60px 0}
+  .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:920px){.demo-grid{grid-template-columns:1fr}}
+  .panel{background:var(--bg-2);border:1px solid var(--border);border-radius:18px;overflow:hidden;
+    box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 12px 40px -24px rgba(15,15,12,.3)}
+  .panel-head{display:flex;align-items:center;gap:9px;padding:14px 18px;border-bottom:1px solid var(--border);
+    font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em;color:var(--text-dim)}
+  .panel-head .tag{margin-left:auto;font-size:11px;color:var(--text-faint);font-family:var(--mono);font-weight:400}
+  .dotrow{display:flex;gap:6px}
+  .dotrow i{width:10px;height:10px;border-radius:50%;background:rgba(15,15,12,.14)}
+  .panel-body{padding:20px}
+
+  .wf-trigger{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--lime-deep);
+    font-family:var(--display);font-weight:700;margin-bottom:8px}
+  .wf-line{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;
+    padding:12px 14px;font-size:14.5px;margin-bottom:18px}
+  .wf-line b{background:var(--lime);padding:1px 5px;border-radius:4px}
+  .wf-steps{display:flex;flex-direction:column;gap:10px}
+  .wf-step{display:flex;gap:12px;font-size:14px;color:var(--text-dim);line-height:1.45}
+  .wf-step .n{flex:none;width:22px;height:22px;border-radius:7px;background:var(--surface-2);
+    border:1px solid var(--border);display:grid;place-items:center;font-size:11.5px;font-weight:700;
+    color:var(--text);font-family:var(--mono)}
+  .wf-step b{color:var(--text);font-weight:600}
+
+  .log{font-family:var(--mono);font-size:12.5px}
+  .log-acct{display:flex;align-items:center;justify-content:space-between;
+    background:rgba(198,254,30,.22);border:1px solid rgba(168,224,0,.5);border-radius:10px;
+    padding:10px 13px;margin-bottom:14px;font-family:var(--display)}
+  .log-acct .ok{color:var(--lime-deep);font-weight:700;font-size:12px}
+  .log-step{padding:9px 0;border-top:1px dashed var(--border)}
+  .log-step:first-of-type{border-top:none;padding-top:0}
+  .log-time{color:var(--text-faint);font-size:10.5px}
+  .log-title{color:var(--text);margin:3px 0 5px;font-family:var(--display);font-weight:600;font-size:12.5px}
+  .log-title .reason{color:var(--green)}
+  .log-code{background:var(--surface-2);border-radius:7px;padding:7px 9px;color:var(--text-dim);
+    line-height:1.5;white-space:pre-wrap;word-break:break-word;border-left:2px solid var(--border-strong)}
+  .log-code .ret{color:var(--green)}
+  .log-foot{margin-top:14px;display:flex;align-items:center;gap:8px;font-family:var(--display);
+    font-size:12px;color:var(--text-faint)}
+  .log-foot .done{color:var(--lime-deep);font-weight:700}
+
+  /* ---- steps (how it works) ---- */
+  .steps{padding:90px 0}
+  .step-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:820px){.step-grid{grid-template-columns:1fr}}
+  .step-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:30px;
+    transition:border-color .25s,transform .25s,box-shadow .25s}
+  .step-card:hover{border-color:var(--border-strong);transform:translateY(-3px);box-shadow:0 16px 40px -28px rgba(15,15,12,.4)}
+  .step-num{font-family:var(--mono);font-size:13px;color:var(--lime-deep);margin-bottom:54px;font-weight:500}
+  .step-card h3{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.02em;margin-bottom:10px}
+  .step-card p{color:var(--text-dim);font-size:15px}
+
+  /* ---- use cases tabs ---- */
+  .usecase{padding:30px 0 90px}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px}
+  .tab{font-family:var(--display);font-weight:700;font-size:14px;padding:10px 18px;border-radius:100px;
+    border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;
+    transition:.2s}
+  .tab:hover{color:var(--text);border-color:var(--border-strong)}
+  .tab.active{background:var(--lime);color:#11110e;border-color:var(--lime)}
+  .uc-panel{display:none}
+  .uc-panel.active{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;
+    animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media(max-width:860px){.uc-panel.active{grid-template-columns:1fr;gap:28px}}
+  .uc-copy h3{font-family:var(--display);font-weight:800;letter-spacing:-.025em;font-size:clamp(24px,3vw,34px);
+    line-height:1.1;margin-bottom:16px}
+  .uc-copy p{color:var(--text-dim);font-size:16px;margin-bottom:24px}
+  .uc-flow{background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:8px;
+    box-shadow:0 12px 40px -28px rgba(15,15,12,.35)}
+  .flow-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:11px}
+  .flow-row + .flow-row{border-top:1px solid var(--border)}
+  .flow-ico{flex:none;width:34px;height:34px;border-radius:9px;background:var(--surface-2);
+    border:1px solid var(--border);display:grid;place-items:center;font-size:16px}
+  .flow-main{flex:1}
+  .flow-main .t{font-family:var(--display);font-weight:600;font-size:14.5px}
+  .flow-main .d{color:var(--text-faint);font-size:12.5px}
+  .pill{flex:none;font-family:var(--display);font-size:10.5px;font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;padding:4px 10px;border-radius:100px}
+  .pill.call{background:rgba(198,254,30,.3);color:var(--lime-deep)}
+  .pill.reason{background:rgba(10,143,84,.14);color:var(--green)}
+  .pill.read{background:rgba(198,31,147,.12);color:var(--pink)}
+
+  /* ---- features ---- */
+  .features{padding:90px 0}
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:860px){.feat-grid{grid-template-columns:1fr}}
+  .feat{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px;
+    transition:.25s}
+  .feat:hover{border-color:rgba(168,224,0,.6);box-shadow:0 16px 40px -30px rgba(15,15,12,.4)}
+  .feat .ico{width:40px;height:40px;border-radius:11px;background:rgba(198,254,30,.3);
+    border:1px solid rgba(168,224,0,.45);display:grid;place-items:center;font-size:19px;margin-bottom:16px}
+  .feat h4{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:-.01em;margin-bottom:8px}
+  .feat p{color:var(--text-dim);font-size:14.5px}
+
+  /* ---- stats ---- */
+  .stats{padding:30px 0 90px}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  @media(max-width:760px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:linear-gradient(180deg,rgba(198,254,30,.22),var(--surface));
+    border:1px solid var(--border);border-radius:16px;padding:30px 24px;text-align:center}
+  .stat .num{font-family:var(--display);font-weight:800;letter-spacing:-.03em;
+    font-size:clamp(34px,4.5vw,52px);color:var(--text);line-height:1}
+  .stat .lbl{color:var(--text-dim);font-size:13.5px;margin-top:12px}
+
+  /* ---- integrations ---- */
+  .integ{padding:30px 0 90px}
+  .integ-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:760px;margin:0 auto}
+  .chip{font-family:var(--display);font-weight:600;font-size:14.5px;padding:10px 18px;border-radius:100px;
+    border:1px solid var(--border);background:var(--surface);color:var(--text-dim);transition:.2s}
+  .chip:hover{border-color:rgba(168,224,0,.7);color:var(--text);background:#fff}
+  .chip.more{color:var(--lime-deep);border-color:rgba(168,224,0,.6);background:rgba(198,254,30,.22)}
+
+  /* ---- pricing ---- */
+  .pricing{padding:30px 0 90px}
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+  @media(max-width:860px){.price-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}}
+  .price{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:30px;
+    display:flex;flex-direction:column;position:relative}
+  .price.featured{border-color:rgba(168,224,0,.7);background:linear-gradient(180deg,rgba(198,254,30,.16),var(--surface));
+    box-shadow:0 24px 60px -36px rgba(168,224,0,.9)}
+  .price .badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    background:var(--lime);color:#11110e;font-family:var(--display);font-weight:700;font-size:11px;
+    letter-spacing:.05em;text-transform:uppercase;padding:5px 13px;border-radius:100px}
+  .price .name{font-family:var(--display);font-weight:700;font-size:16px;color:var(--text-dim)}
+  .price .amt{font-family:var(--display);font-weight:800;letter-spacing:-.03em;font-size:46px;margin:14px 0 4px}
+  .price .amt small{font-size:16px;font-weight:600;color:var(--text-faint)}
+  .price .desc{color:var(--text-dim);font-size:14px;min-height:62px}
+  .price hr{border:none;border-top:1px solid var(--border);margin:20px 0}
+  .price ul{list-style:none;display:flex;flex-direction:column;gap:12px;flex:1;margin-bottom:24px}
+  .price li{display:flex;gap:10px;font-size:14px;color:var(--text-dim)}
+  .price li::before{content:"✓";color:var(--lime-deep);font-weight:800;flex:none}
+  .price .btn{width:100%;justify-content:center}
+
+  /* ---- final cta ---- */
+  .final{padding:30px 0 100px}
+  .final-card{background:linear-gradient(135deg,rgba(198,254,30,.4),rgba(198,254,30,.12));
+    border:1px solid rgba(168,224,0,.5);border-radius:26px;padding:64px 40px;text-align:center;
+    position:relative;overflow:hidden}
+  .final-card::before{content:"";position:absolute;width:380px;height:380px;border-radius:50%;
+    background:radial-gradient(circle,rgba(198,254,30,.7),transparent 70%);top:-150px;right:-80px}
+  .final-card h2{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:1.05;
+    font-size:clamp(32px,5vw,52px);position:relative}
+  .final-card p{color:var(--text-dim);font-size:17px;margin:16px auto 30px;max-width:520px;position:relative}
+  .final-card .btn{position:relative}
+  .final-card .btn-primary{background:#11110e;color:#fff}
+  .final-card .btn-primary:hover{box-shadow:0 12px 30px -10px rgba(15,15,12,.5)}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--border);padding:60px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px}
+  @media(max-width:760px){.foot-grid{grid-template-columns:1fr 1fr}}
+  .foot-brand p{color:var(--text-dim);font-size:14px;max-width:260px;margin-top:14px}
+  .foot-col h5{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--text-faint);margin-bottom:14px}
+  .foot-col a{display:block;color:var(--text-dim);font-size:14px;margin-bottom:9px;transition:color .2s}
+  .foot-col a:hover{color:var(--lime-deep)}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:50px;
+    padding-top:24px;border-top:1px solid var(--border);color:var(--text-faint);font-size:13px;flex-wrap:wrap;gap:10px}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">
-    <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"></path><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"></path><path d="M3 12h18"></path></svg></div>
-    <span class="logo-text">dugong</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#how">How it works</a></li>
-    <li><a href="#use-cases">Use cases</a></li>
-    <li><a href="#integrations">Integrations</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-  </ul>
-  <div class="nav-actions">
-    <a href="#" class="btn-ghost">Log in</a>
-    <a href="#" class="btn-primary">Start free →</a>
+  <div class="wrap nav-inner">
+    <a class="logo" href="#"><span class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"></path><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"></path><path d="M3 12h18"></path></svg></span>dugong</a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#usecases">Use cases</a>
+      <a href="#integrations">Integrations</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a class="login" href="#">Log in</a>
+      <a class="btn btn-primary" href="#">Start free →</a>
+    </div>
   </div>
 </nav>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-badge"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>AI agents with real tool access</div>
-  <h1>Write your workflow.<br><em>AI runs it.</em></h1>
-  <p class="hero-sub">Describe what you want to automate in plain English. Dugong hands your instructions to an AI agent — it reads them, reasons through each step, and calls your apps directly. No builder. No blocks. No code.</p>
-  <div class="hero-actions">
-    <a href="#" class="btn-primary">Start for free →</a>
-    <a href="#how" class="btn-secondary">▶ See how it works</a>
+<section class="hero wrap">
+  <span class="eyebrow">AI agents with real tool access</span>
+  <h1>Write your workflow. <em>AI runs it.</em></h1>
+  <p class="lead">Describe what you want to automate in plain English. Dugong hands your instructions to an AI agent — it reads them, reasons through each step, and calls your apps directly. No builder. No blocks. No code.</p>
+  <div class="hero-cta">
+    <a class="btn btn-primary btn-lg" href="#">Start for free →</a>
+    <a class="btn btn-ghost btn-lg" href="#how">▶ See how it works</a>
   </div>
-  <div class="trusted-row">
-    <span class="trusted-label">Trusted by teams at</span>
-    <div class="trusted-logos">
-      <span>Vercel</span><span>Notion</span><span>Linear</span><span>Ramp</span><span>Resend</span>
-    </div>
-  </div>
-</div>
 
-<!-- HOW IT WORKS -->
-<section id="how">
-  <div class="eyebrow">How it works</div>
-  <h2>No builder.<br><em>Just language.</em></h2>
-  <p class="sec-sub">Traditional automation tools make you draw a diagram. Dugong just reads what you write and does the work.</p>
-  <div class="steps-grid">
-    <div class="step-card">
-      <div class="step-num">01</div>
-      <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></div>
-      <h3>Describe it in plain English</h3>
-      <p>Write your trigger and steps the way you'd explain it to a colleague. Say "if the deal is over $10k, notify the CSM." Name any app. No special syntax — just plain language.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">02</div>
-      <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="18" height="18" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></svg></div>
-      <h3>An AI agent reads and reasons through it</h3>
-      <p>Your description is passed to an AI agent. It understands the intent, decides what to do at each step, handles conditions, and figures out what to pass between apps — live, at runtime.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">03</div>
-      <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></div>
-      <h3>It calls your apps and gets it done</h3>
-      <p>The agent executes each step by making direct tool calls to Slack, Gmail, Salesforce, Notion, and more — in the right order, with the right data — no human involved.</p>
+  <div class="trusted">
+    <div class="label">Trusted by teams at</div>
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>Vercel</span><span>Notion</span><span>Linear</span><span>Ramp</span><span>Resend</span>
+        <span>Vercel</span><span>Notion</span><span>Linear</span><span>Ramp</span><span>Resend</span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- DEMO -->
-<div class="demo-section">
-  <div class="demo-inner">
-    <div class="eyebrow">Live example</div>
-    <h2>You write this.<br><em style="color:#7C6FF0;">The agent does this.</em></h2>
+<!-- LIVE DEMO SPLIT -->
+<section class="demo wrap" id="how">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">Live example</span>
+    <h2 class="headline">You write this. <em>The agent does this.</em></h2>
     <p class="sec-sub">A real workflow — written in plain English on the left, executed by the AI agent on the right.</p>
-    <div class="demo-grid">
+  </div>
 
-      <!-- What the user writes -->
-      <div class="panel">
-        <div class="panel-header">
-          <div class="pdot r"></div><div class="pdot y"></div><div class="pdot g"></div>
-          <span class="plabel">Your workflow description</span>
-        </div>
-        <div class="panel-body">
-          <div class="plabel2">Trigger</div>
-          <div class="trigger-block">
-            <div class="trigger-tag"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg> When this happens</div>
-            <div class="trigger-text">A deal is marked "Closed Won" in Salesforce</div>
-          </div>
-          <div class="plabel2">Steps — in your own words</div>
-          <div class="nl-step">
-            <div class="nl-num">1</div>
-            <div class="nl-text">Look up the contact in <span class="apill">Clearbit</span> — get their company size, industry, and LinkedIn</div>
-          </div>
-          <div class="nl-step">
-            <div class="nl-num">2</div>
-            <div class="nl-text">Create an onboarding project in <span class="apill">Notion</span> using our "New Client" template, fill in their details</div>
-          </div>
-          <div class="nl-step">
-            <div class="nl-num">3</div>
-            <div class="nl-text">If the deal is over $10k, post to <span class="apill">Slack</span> #csm-team and assign a dedicated CSM. Otherwise skip.</div>
-          </div>
-          <div class="nl-step">
-            <div class="nl-num">4</div>
-            <div class="nl-text">Send a personalised welcome email from the account exec's <span class="apill">Gmail</span></div>
-          </div>
-          <div class="nl-step">
-            <div class="nl-num">5</div>
-            <div class="nl-text">Log the win in our <span class="apill">Google Sheets</span> revenue tracker with deal value and close date</div>
-          </div>
+  <div class="demo-grid reveal">
+    <!-- left: description -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="dotrow"><i></i><i></i><i></i></div>
+        Your workflow description
+        <span class="tag">plain&nbsp;english.txt</span>
+      </div>
+      <div class="panel-body">
+        <div class="wf-trigger">▸ Trigger — when this happens</div>
+        <div class="wf-line">A deal is marked <b>"Closed Won"</b> in Salesforce</div>
+        <div class="wf-trigger">▸ Steps — in your own words</div>
+        <div class="wf-steps">
+          <div class="wf-step"><span class="n">1</span><div>Look up the contact in <b>Clearbit</b> — get company size, industry, and LinkedIn</div></div>
+          <div class="wf-step"><span class="n">2</span><div>Create an onboarding project in <b>Notion</b> using our "New Client" template</div></div>
+          <div class="wf-step"><span class="n">3</span><div>If the deal is over $10k, post to <b>Slack</b> #csm-team and assign a CSM. Otherwise skip.</div></div>
+          <div class="wf-step"><span class="n">4</span><div>Send a personalised welcome email from the AE's <b>Gmail</b></div></div>
+          <div class="wf-step"><span class="n">5</span><div>Log the win in our <b>Google Sheets</b> revenue tracker</div></div>
         </div>
       </div>
+    </div>
 
-      <!-- What the agent does -->
-      <div class="panel run-panel">
-        <div class="panel-header">
-          <div class="pdot r"></div><div class="pdot y"></div><div class="pdot g"></div>
-          <span class="plabel">Agent executing now</span>
+    <!-- right: execution log -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="dotrow"><i style="background:var(--lime-deep)"></i><i></i><i></i></div>
+        Agent executing now
+        <span class="tag">runtime · live</span>
+      </div>
+      <div class="panel-body">
+        <div class="log-acct">
+          <span style="font-weight:700">Acme Corp · $24,000</span>
+          <span class="ok">Done ✓</span>
         </div>
-        <div class="panel-body">
-          <div class="run-header">
-            <div class="run-title"><div class="run-dot"></div>Acme Corp · $24,000</div>
-            <span class="run-badge done">Done ✓</span>
-          </div>
-          <div class="run-log">
-
-            <div class="log-line">
-              <div class="log-ts">09:41:02</div>
-              <div class="log-body">
-                <div class="log-evt">Trigger received → Salesforce webhook</div>
-                <div class="log-detail ok">opportunity.stage = "Closed Won"
+        <div class="log">
+          <div class="log-step">
+            <div class="log-time">09:41:02</div>
+            <div class="log-title">Trigger received → Salesforce webhook</div>
+            <div class="log-code">opportunity.stage = "Closed Won"
 contact.email = "sarah@acmecorp.com"</div>
-              </div>
-            </div>
-
-            <div class="log-line">
-              <div class="log-ts">09:41:03</div>
-              <div class="log-body">
-                <div class="log-evt">Step 1 → tool call: clearbit.enrich()</div>
-                <div class="log-detail ai">clearbit.enrich({ email: "sarah@acmecorp.com" })
-← company_size: 340, industry: "FinTech"
-   linkedin: linkedin.com/in/sarah-k</div>
-              </div>
-            </div>
-
-            <div class="log-line">
-              <div class="log-ts">09:41:04</div>
-              <div class="log-body">
-                <div class="log-evt">Step 2 → tool call: notion.pages.create()</div>
-                <div class="log-detail ai">notion.pages.create({ template: "New Client",
-  client: "Acme Corp", industry: "FinTech" })
-← page_id: abc-123 · created ✓</div>
-              </div>
-            </div>
-
-            <div class="log-line">
-              <div class="log-ts">09:41:05</div>
-              <div class="log-body">
-                <div class="log-evt">Step 3 → agent reasoning: is $24k > $10k?</div>
-                <div class="log-detail branch">Yes → taking the CSM path
-slack.postMessage({ channel: "#csm-team",
-  text: "New enterprise win: Acme Corp ($24k)" })
-salesforce.update({ csm: "Jordan Lee" })</div>
-              </div>
-            </div>
-
-            <div class="log-line">
-              <div class="log-ts">09:41:07</div>
-              <div class="log-body">
-                <div class="log-evt">Step 4 → tool call: gmail.send()</div>
-                <div class="log-detail ai">gmail.send({ from: "mike@company.com",
-  to: "sarah@acmecorp.com",
-  subject: "Welcome to [Co], Sarah!" })
-← delivered ✓</div>
-              </div>
-            </div>
-
-            <div class="log-line">
-              <div class="log-ts">09:41:08</div>
-              <div class="log-body">
-                <div class="log-evt">Step 5 → tool call: sheets.append()</div>
-                <div class="log-detail ok">sheets.append({ sheet: "Revenue 2026",
-  row: ["2026-05-29","Acme Corp","$24,000"] })
-← row added ✓</div>
-              </div>
-            </div>
-
           </div>
-          <div class="run-footer">
-            <span class="run-meta">5 steps · 7 tool calls · 6.2s</span>
-            <span class="run-meta" style="color:#34D399;">All steps completed</span>
+          <div class="log-step">
+            <div class="log-time">09:41:03</div>
+            <div class="log-title">Step 1 → tool call: clearbit.enrich()</div>
+            <div class="log-code">clearbit.enrich({ email: "sarah@acmecorp.com" })
+<span class="ret">← company_size: 340 · industry: "FinTech"</span></div>
+          </div>
+          <div class="log-step">
+            <div class="log-time">09:41:05</div>
+            <div class="log-title"><span class="reason">⟳ reasoning:</span> is $24k &gt; $10k?</div>
+            <div class="log-code">Yes → taking the CSM path
+slack.postMessage({ channel: "#csm-team" })
+<span class="ret">← assigned CSM: Jordan Lee ✓</span></div>
+          </div>
+          <div class="log-step">
+            <div class="log-time">09:41:08</div>
+            <div class="log-title">Step 5 → tool call: sheets.append()</div>
+            <div class="log-code">sheets.append({ sheet: "Revenue 2026" })
+<span class="ret">← row added ✓</span></div>
           </div>
         </div>
+        <div class="log-foot"><span class="done">All steps completed</span> · 7 tool calls · 6.2s</div>
       </div>
-
     </div>
   </div>
-</div>
+</section>
+
+<!-- HOW IT WORKS STEPS -->
+<section class="steps wrap">
+  <div class="sec-head reveal">
+    <span class="eyebrow">How it works</span>
+    <h2 class="headline">No builder. <em>Just language.</em></h2>
+    <p class="sec-sub">Traditional automation tools make you draw a diagram. Dugong just reads what you write and does the work.</p>
+  </div>
+  <div class="step-grid">
+    <div class="step-card reveal">
+      <div class="step-num">01</div>
+      <h3>Describe it in plain English</h3>
+      <p>Write your trigger and steps the way you'd explain them to a colleague. Name any app. No special syntax — just plain language.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">02</div>
+      <h3>An AI agent reads and reasons</h3>
+      <p>Your description is passed to an AI agent. It understands intent, handles conditions, and decides what to pass between apps — live, at runtime.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">03</div>
+      <h3>It calls your apps directly</h3>
+      <p>The agent executes each step with direct tool calls to Slack, Gmail, Salesforce, Notion and more — in the right order, with the right data.</p>
+    </div>
+  </div>
+</section>
 
 <!-- USE CASES -->
-<section id="use-cases">
-  <div class="eyebrow">Use cases</div>
-  <h2>Real workflows,<br><em>described in seconds.</em></h2>
-  <p class="sec-sub">Every team has repetitive processes that eat hours every week. Just write them down.</p>
-  <div class="tabs">
-    <button class="tab active" onclick="showUC(0,this)">Sales ops</button>
-    <button class="tab" onclick="showUC(1,this)">Customer success</button>
-    <button class="tab" onclick="showUC(2,this)">Marketing</button>
-    <button class="tab" onclick="showUC(3,this)">Engineering</button>
+<section class="usecase wrap" id="usecases">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Use cases</span>
+    <h2 class="headline">Real workflows, <em>described in seconds.</em></h2>
+    <p class="sec-sub">Every team has repetitive processes that eat hours every week. Just write them down.</p>
   </div>
 
-  <div id="uc-0" class="uc-card">
-    <div>
-      <div class="uc-label">Sales ops</div>
+  <div class="tabs reveal">
+    <button class="tab active" data-uc="0">Sales ops</button>
+    <button class="tab" data-uc="1">Customer success</button>
+    <button class="tab" data-uc="2">Marketing</button>
+    <button class="tab" data-uc="3">Engineering</button>
+  </div>
+
+  <!-- panel 0 -->
+  <div class="uc-panel active" data-uc="0">
+    <div class="uc-copy">
       <h3>Qualify and route every inbound lead automatically</h3>
       <p>The moment a form lands, the agent enriches the contact, scores the lead, routes it to the right rep, and creates the Salesforce deal — all before your rep has opened their laptop.</p>
-      <a href="#" class="btn-primary">Try this workflow →</a>
+      <a class="btn btn-ghost" href="#">Try this workflow →</a>
     </div>
-    <div class="flow-preview">
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></div><div class="ftext"><div class="ftitle">Form submitted</div><div class="fdesc">Typeform, HubSpot, or any webhook</div></div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div><div class="ftext"><div class="ftitle">Enrich with Clearbit</div><div class="fdesc">Company size, industry, tech stack</div></div><div class="fbadge">Tool call</div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div><div class="ftext"><div class="ftitle">Agent scores and routes</div><div class="fdesc">Reasons: AE for high-fit, nurture for low</div></div><div class="fbadge">AI reasons</div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></div><div class="ftext"><div class="ftitle">Create Salesforce deal</div><div class="fdesc">Owner assigned, stage set, notes added</div></div><div class="fbadge">Tool call</div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="ftext"><div class="ftitle">Notify rep in Slack</div><div class="fdesc">Card with lead score and key context</div></div><div class="fbadge">Tool call</div></div>
+    <div class="uc-flow">
+      <div class="flow-row"><div class="flow-ico">📨</div><div class="flow-main"><div class="t">Form submitted</div><div class="d">Typeform, HubSpot, or any webhook</div></div></div>
+      <div class="flow-row"><div class="flow-ico">🔍</div><div class="flow-main"><div class="t">Enrich with Clearbit</div><div class="d">Company size, industry, tech stack</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico">🧠</div><div class="flow-main"><div class="t">Agent scores and routes</div><div class="d">AE for high-fit, nurture for low</div></div><span class="pill reason">AI reasons</span></div>
+      <div class="flow-row"><div class="flow-ico">💼</div><div class="flow-main"><div class="t">Create Salesforce deal</div><div class="d">Owner assigned, stage set, notes added</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico">💬</div><div class="flow-main"><div class="t">Notify rep in Slack</div><div class="d">Card with lead score and key context</div></div><span class="pill call">Tool call</span></div>
     </div>
   </div>
 
-  <div id="uc-1" class="uc-card" style="display:none;">
-    <div>
-      <div class="uc-label">Customer success</div>
+  <!-- panel 1 -->
+  <div class="uc-panel" data-uc="1">
+    <div class="uc-copy">
       <h3>Full client onboarding the moment a deal closes</h3>
-      <p>Write "when a deal closes, create a Notion project, send a welcome email from the AE, and book a kickoff call." The agent does exactly that — every time, for every deal, tailored to the account size.</p>
-      <a href="#" class="btn-primary">Try this workflow →</a>
+      <p>Write "when a deal closes, create a Notion project, send a welcome email from the AE, and book a kickoff call." The agent does exactly that — every time, tailored to the account size.</p>
+      <a class="btn btn-ghost" href="#">Try this workflow →</a>
     </div>
-    <div class="flow-preview">
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div><div class="ftext"><div class="ftitle">Deal marked Closed Won</div><div class="fdesc">Salesforce trigger fires instantly</div></div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg></div><div class="ftext"><div class="ftitle">Create Notion onboarding</div><div class="fdesc">From template, client details pre-filled</div></div><div class="fbadge">Tool call</div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div><div class="ftext"><div class="ftitle">Send personalised welcome email</div><div class="fdesc">From the AE's Gmail, not a generic address</div></div><div class="fbadge">Tool call</div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></div><div class="ftext"><div class="ftitle">Book kickoff call</div><div class="fdesc">Calendly invite, CSM auto-assigned by deal size</div></div><div class="fbadge">AI reasons</div></div>
+    <div class="uc-flow">
+      <div class="flow-row"><div class="flow-ico">🏆</div><div class="flow-main"><div class="t">Deal marked Closed Won</div><div class="d">Salesforce trigger fires instantly</div></div></div>
+      <div class="flow-row"><div class="flow-ico">📋</div><div class="flow-main"><div class="t">Create Notion onboarding</div><div class="d">From template, client details pre-filled</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico">✉️</div><div class="flow-main"><div class="t">Send personalised welcome email</div><div class="d">From the AE's Gmail, not a generic address</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico">📅</div><div class="flow-main"><div class="t">Book kickoff call</div><div class="d">Calendly invite, CSM auto-assigned by size</div></div><span class="pill reason">AI reasons</span></div>
     </div>
   </div>
 
-  <div id="uc-2" class="uc-card" style="display:none;">
-    <div>
-      <div class="uc-label">Marketing</div>
-      <h3>Publish once — distributed everywhere, formatted per platform</h3>
+  <!-- panel 2 -->
+  <div class="uc-panel" data-uc="2">
+    <div class="uc-copy">
+      <h3>Publish once — distributed everywhere, per platform</h3>
       <p>Drop a blog post in Notion and write "when this is published, write a Twitter thread, a LinkedIn post, and an email excerpt, then schedule them." The agent reads the post and does it.</p>
-      <a href="#" class="btn-primary">Try this workflow →</a>
+      <a class="btn btn-ghost" href="#">Try this workflow →</a>
     </div>
-    <div class="flow-preview">
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></div><div class="ftext"><div class="ftitle">Post published in Notion</div><div class="fdesc">Status change triggers the agent</div></div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></svg></div><div class="ftext"><div class="ftitle">Agent reads and understands it</div><div class="fdesc">Tone, key points, audience inferred</div></div><div class="fbadge">AI reads</div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></div><div class="ftext"><div class="ftitle">Writes channel variants</div><div class="fdesc">Twitter thread, LinkedIn post, email snippet</div></div><div class="fbadge">AI writes</div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></div><div class="ftext"><div class="ftitle">Schedules in Buffer + SendGrid</div><div class="fdesc">Right format, right time, per platform</div></div><div class="fbadge">Tool call</div></div>
+    <div class="uc-flow">
+      <div class="flow-row"><div class="flow-ico">📝</div><div class="flow-main"><div class="t">Post published in Notion</div><div class="d">Status change triggers the agent</div></div></div>
+      <div class="flow-row"><div class="flow-ico">📖</div><div class="flow-main"><div class="t">Agent reads and understands it</div><div class="d">Tone, key points, audience inferred</div></div><span class="pill read">AI reads</span></div>
+      <div class="flow-row"><div class="flow-ico">✍️</div><div class="flow-main"><div class="t">Writes channel variants</div><div class="d">Twitter thread, LinkedIn post, email snippet</div></div><span class="pill reason">AI writes</span></div>
+      <div class="flow-row"><div class="flow-ico">⏰</div><div class="flow-main"><div class="t">Schedules in Buffer + SendGrid</div><div class="d">Right format, right time, per platform</div></div><span class="pill call">Tool call</span></div>
     </div>
   </div>
 
-  <div id="uc-3" class="uc-card" style="display:none;">
-    <div>
-      <div class="uc-label">Engineering</div>
-      <h3>Critical issue raised — team paged and incident open in seconds</h3>
+  <!-- panel 3 -->
+  <div class="uc-panel" data-uc="3">
+    <div class="uc-copy">
+      <h3>Critical issue raised — team paged in seconds</h3>
       <p>Write "when a GitHub issue is labelled critical, page the on-call in Slack, open a Linear incident, and create a Notion post-mortem." Done. Every single time.</p>
-      <a href="#" class="btn-primary">Try this workflow →</a>
+      <a class="btn btn-ghost" href="#">Try this workflow →</a>
     </div>
-    <div class="flow-preview">
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></div><div class="ftext"><div class="ftitle">GitHub issue labelled "critical"</div><div class="fdesc">Webhook fires instantly</div></div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div><div class="ftext"><div class="ftitle">Page on-call in Slack</div><div class="fdesc">@mention with issue title and link</div></div><div class="fbadge">Tool call</div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1z"/></svg></div><div class="ftext"><div class="ftitle">Open Linear incident</div><div class="fdesc">Linked to GitHub issue, team assigned</div></div><div class="fbadge">Tool call</div></div>
-      <div class="fstep"><div class="ficon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg></div><div class="ftext"><div class="ftitle">Create Notion post-mortem</div><div class="fdesc">Template with timeline and issue details pre-filled</div></div><div class="fbadge">Tool call</div></div>
+    <div class="uc-flow">
+      <div class="flow-row"><div class="flow-ico">🐙</div><div class="flow-main"><div class="t">GitHub issue labelled "critical"</div><div class="d">Webhook fires instantly</div></div></div>
+      <div class="flow-row"><div class="flow-ico">📟</div><div class="flow-main"><div class="t">Page on-call in Slack</div><div class="d">@mention with issue title and link</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico">🚨</div><div class="flow-main"><div class="t">Open Linear incident</div><div class="d">Linked to GitHub issue, team assigned</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico">📄</div><div class="flow-main"><div class="t">Create Notion post-mortem</div><div class="d">Template with timeline pre-filled</div></div><span class="pill call">Tool call</span></div>
     </div>
   </div>
 </section>
 
 <!-- FEATURES -->
-<section class="full-bleed">
-  <div class="inner">
-    <div class="eyebrow">Under the hood</div>
-    <h2>What makes it<br><em>actually different.</em></h2>
+<section class="features wrap">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Under the hood</span>
+    <h2 class="headline">What makes it <em>actually different.</em></h2>
     <p class="sec-sub">Dugong isn't a visual builder with an "AI" button bolted on. The AI is the engine — it reads, reasons, and acts.</p>
-    <div class="feat-grid">
-      <div class="feat">
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg></div>
-        <h4>Language is the interface</h4>
-        <p>Your description is the workflow. No canvas, no blocks, no config panels. The agent reads what you wrote and figures out the rest.</p>
-      </div>
-      <div class="feat">
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg></div>
-        <h4>Conditional logic for free</h4>
-        <p>Write "if the deal is over $10k" or "unless they've already been contacted" — the agent understands the condition and branches accordingly, every run.</p>
-      </div>
-      <div class="feat">
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>
-        <h4>Failures handled intelligently</h4>
-        <p>If a tool call fails, the agent doesn't just crash — it retries, tries an alternative approach, or flags the issue with full context. No silent breakages.</p>
-      </div>
-      <div class="feat">
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg></div>
-        <h4>200+ tools, called directly</h4>
-        <p>Mention Gmail, Slack, Salesforce, or Notion — the agent knows how to call them. No manual API setup. No OAuth headaches. Just name it.</p>
-      </div>
-      <div class="feat">
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></svg></div>
-        <h4>Context carried across steps</h4>
-        <p>Each step isn't isolated. The agent carries context from what it learned in previous steps — so it can personalise, adapt, and make sensible decisions throughout.</p>
-      </div>
-      <div class="feat">
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <h4>Full visibility into every run</h4>
-        <p>Every tool call, every decision, every piece of data — logged in plain language so you always know exactly what the agent did and why.</p>
-      </div>
-    </div>
+  </div>
+  <div class="feat-grid">
+    <div class="feat reveal"><div class="ico">⌨️</div><h4>Language is the interface</h4><p>Your description is the workflow. No canvas, no blocks, no config panels. The agent reads what you wrote and figures out the rest.</p></div>
+    <div class="feat reveal"><div class="ico">🔀</div><h4>Conditional logic for free</h4><p>Write "if the deal is over $10k" or "unless they've been contacted" — the agent understands and branches accordingly, every run.</p></div>
+    <div class="feat reveal"><div class="ico">🛡️</div><h4>Failures handled intelligently</h4><p>If a tool call fails, the agent doesn't crash — it retries, tries an alternative, or flags the issue with full context.</p></div>
+    <div class="feat reveal"><div class="ico">🔌</div><h4>200+ tools, called directly</h4><p>Mention Gmail, Slack, Salesforce or Notion — the agent knows how to call them. No manual API setup. No OAuth headaches.</p></div>
+    <div class="feat reveal"><div class="ico">🧵</div><h4>Context carried across steps</h4><p>Each step isn't isolated. The agent carries what it learned in previous steps — so it can personalise and adapt throughout.</p></div>
+    <div class="feat reveal"><div class="ico">👁️</div><h4>Full visibility into every run</h4><p>Every tool call, every decision, every piece of data — logged in plain language so you always know what the agent did and why.</p></div>
   </div>
 </section>
 
-<!-- COMPARISON -->
-<section>
-  <div class="eyebrow">Why Dugong</div>
-  <h2>Other tools automate.<br><em>Dugong understands.</em></h2>
-  <p class="sec-sub">The difference isn't features — it's whether you're configuring a tool or just telling it what to do.</p>
-  <table class="cmp-table">
-    <thead>
-      <tr>
-        <th>Capability</th>
-        <th>Traditional automation tools</th>
-        <th>Dugong</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Creating a workflow</td>
-        <td><span class="xm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D0D0D0" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Drag blocks, wire connections, configure each one</td>
-        <td><span class="cm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Write it in plain English — the agent handles the rest</td>
-      </tr>
-      <tr>
-        <td>Conditional logic</td>
-        <td><span class="xm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D0D0D0" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Add filter nodes, set field rules manually</td>
-        <td><span class="cm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Write "if" — the agent reasons and branches live</td>
-      </tr>
-      <tr>
-        <td>Connecting apps</td>
-        <td><span class="xm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D0D0D0" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> OAuth per app, manual field mapping per step</td>
-        <td><span class="cm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Mention the app name — already wired</td>
-      </tr>
-      <tr>
-        <td>When something breaks</td>
-        <td><span class="xm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D0D0D0" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Silent fail — you find out from a user complaint</td>
-        <td><span class="cm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Agent retries, adapts, and explains what happened</td>
-      </tr>
-      <tr>
-        <td>Handling edge cases</td>
-        <td><span class="xm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D0D0D0" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> You have to anticipate and build every path upfront</td>
-        <td><span class="cm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Agent reasons through unexpected situations on the fly</td>
-      </tr>
-      <tr>
-        <td>Time to first workflow</td>
-        <td><span class="xm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D0D0D0" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> 30–90 minutes of setup and testing</td>
-        <td><span class="cm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Under 5 minutes — just write it and run it</td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="stats-grid">
-    <div class="stat"><div class="stat-num">94<span>%</span></div><div class="stat-lbl">Steps executed correctly first run</div></div>
-    <div class="stat"><div class="stat-num">12<span>×</span></div><div class="stat-lbl">Faster than building manually</div></div>
-    <div class="stat"><div class="stat-num">3.2<span>M</span></div><div class="stat-lbl">Agent-powered runs per month</div></div>
-    <div class="stat"><div class="stat-num">67<span>%</span></div><div class="stat-lbl">Fewer failures vs rule-based tools</div></div>
+<!-- STATS -->
+<section class="stats wrap">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">Why Dugong</span>
+    <h2 class="headline">Other tools automate. <em>Dugong understands.</em></h2>
+  </div>
+  <div class="stat-grid reveal">
+    <div class="stat"><div class="num">94%</div><div class="lbl">Steps executed correctly first run</div></div>
+    <div class="stat"><div class="num">12×</div><div class="lbl">Faster than building manually</div></div>
+    <div class="stat"><div class="num">3.2M</div><div class="lbl">Agent-powered runs per month</div></div>
+    <div class="stat"><div class="num">67%</div><div class="lbl">Fewer failures vs rule-based tools</div></div>
   </div>
 </section>
 
 <!-- INTEGRATIONS -->
-<section id="integrations" class="int-section">
-  <div class="eyebrow">200+ integrations</div>
-  <h2>If you can name it,<br><em>the agent can call it.</em></h2>
-  <p class="sec-sub" style="margin:0 auto;">Just write the app name in your steps. The agent handles auth, API calls, and data mapping automatically.</p>
-  <div class="int-grid">
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> Gmail</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg> Slack</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg> Salesforce</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg> Stripe</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg> Notion</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg> GitHub</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg> HubSpot</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg> Shopify</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/></svg> Airtable</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg> SendGrid</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/></svg> Google Sheets</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg> AWS</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg> Linear</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg> Google Calendar</div>
-    <div class="ichip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg> Clearbit</div>
-    <div class="ichip more"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg> 185 more</div>
+<section class="integ wrap" id="integrations">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">200+ integrations</span>
+    <h2 class="headline">If you can name it, <em>the agent can call it.</em></h2>
+    <p class="sec-sub">Just write the app name in your steps. The agent handles auth, API calls, and data mapping automatically.</p>
+  </div>
+  <div class="integ-grid reveal">
+    <span class="chip">Gmail</span><span class="chip">Slack</span><span class="chip">Salesforce</span>
+    <span class="chip">Stripe</span><span class="chip">Notion</span><span class="chip">GitHub</span>
+    <span class="chip">HubSpot</span><span class="chip">Shopify</span><span class="chip">Airtable</span>
+    <span class="chip">SendGrid</span><span class="chip">Google Sheets</span><span class="chip">AWS</span>
+    <span class="chip">Linear</span><span class="chip">Google Calendar</span><span class="chip">Clearbit</span>
+    <span class="chip more">+ 185 more</span>
   </div>
 </section>
 
 <!-- PRICING -->
-<section class="full-bleed" id="pricing">
-  <div class="inner">
-    <div class="eyebrow center">Pricing</div>
-    <h2 class="center">Simple pricing.<br><em>Free to start.</em></h2>
-    <p class="sec-sub center" style="margin:0 auto;">No credit card required. Upgrade when your workflows grow.</p>
-    <div class="price-grid">
-      <div class="pcard">
-        <div class="pname">Starter</div>
-        <div class="pprice">$0 <span>/mo</span></div>
-        <div class="pdesc">For individuals automating personal workflows and side projects.</div>
-        <hr class="pdiv"/>
-        <ul class="pfeat">
-          <li>5 active workflows</li>
-          <li>500 agent runs per month</li>
-          <li>Plain English workflow builder</li>
-          <li>20 core integrations</li>
-          <li>Full run logs and history</li>
-          <li>Community support</li>
-        </ul>
-        <a href="#" class="btn-secondary" style="width:100%;justify-content:center;">Get started free</a>
-      </div>
-      <div class="pcard featured">
-        <div class="pfeatbadge">Most popular</div>
-        <div class="pname">Pro</div>
-        <div class="pprice"><sup>$</sup>39 <span>/mo</span></div>
-        <div class="pdesc">For teams running real automated workflows across their full stack.</div>
-        <hr class="pdiv"/>
-        <ul class="pfeat">
-          <li>Unlimited workflows</li>
-          <li>10,000 agent runs per month</li>
-          <li>All 200+ integrations</li>
-          <li>Multi-step agent reasoning</li>
-          <li>Automatic retry and failure handling</li>
-          <li>Priority support</li>
-        </ul>
-        <a href="#" class="btn-primary" style="width:100%;justify-content:center;">Start 14-day free trial →</a>
-      </div>
-      <div class="pcard">
-        <div class="pname">Enterprise</div>
-        <div class="pprice" style="font-size:32px;letter-spacing:-1px;padding-top:8px;">Custom</div>
-        <div class="pdesc">For organisations needing custom models, security controls, and a dedicated partner.</div>
-        <hr class="pdiv"/>
-        <ul class="pfeat">
-          <li>Unlimited everything</li>
-          <li>Custom AI model tuning</li>
-          <li>SSO and SAML</li>
-          <li>Audit logs and permissions</li>
-          <li>On-prem deployment option</li>
-          <li>Dedicated success manager</li>
-        </ul>
-        <a href="#" class="btn-secondary" style="width:100%;justify-content:center;">Talk to sales</a>
-      </div>
+<section class="pricing wrap" id="pricing">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">Pricing</span>
+    <h2 class="headline">Simple pricing. <em>Free to start.</em></h2>
+    <p class="sec-sub">No credit card required. Upgrade when your workflows grow.</p>
+  </div>
+  <div class="price-grid reveal">
+    <div class="price">
+      <div class="name">Starter</div>
+      <div class="amt">$0<small> /mo</small></div>
+      <div class="desc">For individuals automating personal workflows and side projects.</div>
+      <hr>
+      <ul>
+        <li>5 active workflows</li>
+        <li>500 agent runs per month</li>
+        <li>Plain English workflow builder</li>
+        <li>20 core integrations</li>
+        <li>Full run logs and history</li>
+        <li>Community support</li>
+      </ul>
+      <a class="btn btn-ghost" href="#">Get started free</a>
+    </div>
+    <div class="price featured">
+      <div class="badge">Most popular</div>
+      <div class="name">Pro</div>
+      <div class="amt">$39<small> /mo</small></div>
+      <div class="desc">For teams running real automated workflows across their full stack.</div>
+      <hr>
+      <ul>
+        <li>Unlimited workflows</li>
+        <li>10,000 agent runs per month</li>
+        <li>All 200+ integrations</li>
+        <li>Multi-step agent reasoning</li>
+        <li>Automatic retry & failure handling</li>
+        <li>Priority support</li>
+      </ul>
+      <a class="btn btn-primary" href="#">Start 14-day free trial →</a>
+    </div>
+    <div class="price">
+      <div class="name">Enterprise</div>
+      <div class="amt">Custom</div>
+      <div class="desc">For organisations needing custom models, security controls, and a dedicated partner.</div>
+      <hr>
+      <ul>
+        <li>Unlimited everything</li>
+        <li>Custom AI model tuning</li>
+        <li>SSO and SAML</li>
+        <li>Audit logs and permissions</li>
+        <li>On-prem deployment option</li>
+        <li>Dedicated success manager</li>
+      </ul>
+      <a class="btn btn-ghost" href="#">Talk to sales</a>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<div class="cta-strip">
-  <h2>Stop configuring.<br>Start describing.</h2>
-  <p>Join 4,000+ teams who shipped their first automation in under five minutes — just by writing it down.</p>
-  <a href="#" class="btn-white">Get started free — no credit card →</a>
-</div>
+<!-- FINAL CTA -->
+<section class="final wrap">
+  <div class="final-card reveal">
+    <h2>Stop configuring.<br>Start describing.</h2>
+    <p>Join 4,000+ teams who shipped their first automation in under five minutes — just by writing it down.</p>
+    <a class="btn btn-primary btn-lg" href="#">Get started free — no credit card →</a>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="ft-top">
-    <div class="ft-brand">
-      <a href="#" class="nav-logo">
-        <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"></path><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"></path><path d="M3 12h18"></path></svg></div>
-        <span class="logo-text">dugong</span>
-      </a>
-      <p class="ft-tagline">AI-native workflow automation. Describe what you need — an agent does the rest.</p>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="#"><span class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"></path><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"></path><path d="M3 12h18"></path></svg></span>dugong</a>
+        <p>AI-native workflow automation. Describe what you need — an agent does the rest.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Product</h5>
+        <a href="#how">How it works</a><a href="#usecases">Use cases</a><a href="#integrations">Integrations</a><a href="#pricing">Pricing</a><a href="#">Changelog</a>
+      </div>
+      <div class="foot-col">
+        <h5>Resources</h5>
+        <a href="#">Documentation</a><a href="#">Blog</a><a href="#">Templates</a><a href="#">Help centre</a>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="#">About</a><a href="#">Careers</a><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a>
+      </div>
     </div>
-    <div class="ft-col">
-      <h5>Product</h5>
-      <ul>
-        <li><a href="#">How it works</a></li>
-        <li><a href="#">Use cases</a></li>
-        <li><a href="#">Integrations</a></li>
-        <li><a href="#">Pricing</a></li>
-        <li><a href="#">Changelog</a></li>
-      </ul>
+    <div class="foot-bottom">
+      <span>© 2026 Dugong AI Inc. All rights reserved.</span>
+      <span>Made for teams who hate busywork</span>
     </div>
-    <div class="ft-col">
-      <h5>Resources</h5>
-      <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">Blog</a></li>
-        <li><a href="#">Templates</a></li>
-        <li><a href="#">Help centre</a></li>
-      </ul>
-    </div>
-    <div class="ft-col">
-      <h5>Company</h5>
-      <ul>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Careers</a></li>
-        <li><a href="#">Privacy</a></li>
-        <li><a href="#">Terms</a></li>
-        <li><a href="#">Security</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="ft-bottom">
-    <p>© 2026 Dugong AI Inc. All rights reserved.</p>
-    <p style="color:#333;">Made for teams who hate busywork</p>
   </div>
 </footer>
 
 <script>
-function showUC(i, btn) {
-  [0,1,2,3].forEach(n => {
-    const el = document.getElementById('uc-'+n);
-    if (el) el.style.display = n===i ? 'grid' : 'none';
-  });
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.uc-panel');
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('active'));
+    panels.forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelector('.uc-panel[data-uc="'+t.dataset.uc+'"]').classList.add('active');
+  }));
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>
