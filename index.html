@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dugong — Automate anything. Just describe it.</title>
+<title>Dugong — AI Workflow Automation in Plain English | No-Code AI Agents</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%278%27%20fill%3D%27%2311110e%27/%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27white%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%20transform%3D%27translate%284%204%29%27%3E%3Cpath%20d%3D%27M12%203C7%203%203%207%203%2012s4%209%209%209%209-4%209-9%27/%3E%3Cpath%20d%3D%27M12%203c2%203%203%206%203%209s-1%206-3%209%27/%3E%3Cpath%20d%3D%27M3%2012h18%27/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -282,13 +283,168 @@
   /* reveal */
   .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
   .reveal.in{opacity:1;transform:none}
+
+  /* ---- faq ---- */
+  .faq{padding:30px 0 90px}
+  .faq-list{max-width:790px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+  .faq-item{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s}
+  .faq-item[open]{border-color:var(--border-strong)}
+  .faq-item summary{list-style:none;cursor:pointer;padding:20px 22px;font-family:var(--display);
+    font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary::after{content:"+";font-size:24px;line-height:1;color:var(--lime-deep);font-weight:700;
+    flex:none;transition:transform .2s}
+  .faq-item[open] summary::after{transform:rotate(45deg)}
+  .faq-item .faq-a{padding:0 22px 22px;color:var(--text-dim);font-size:15.5px;line-height:1.65}
 </style>
+<meta name="description" content="Describe any workflow in plain English and Dugong's AI agent runs it — calling Slack, Gmail, Salesforce, Notion and 200+ apps. No code, no builder. Start free.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="Dugong AI Inc.">
+<meta name="theme-color" content="#f6f6f1">
+<link rel="canonical" href="https://dugong.live/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dugong">
+<meta property="og:title" content="Dugong — AI Workflow Automation in Plain English">
+<meta property="og:description" content="Describe any workflow in plain English and Dugong's AI agent runs it — calling Slack, Gmail, Salesforce, Notion and 200+ apps. No code, no builder. Start free.">
+<meta property="og:url" content="https://dugong.live/">
+<meta property="og:image" content="https://dugong.live/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dugong — describe your workflow, an AI agent runs it.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dugong — AI Workflow Automation in Plain English">
+<meta name="twitter:description" content="Describe any workflow in plain English and Dugong's AI agent runs it — calling Slack, Gmail, Salesforce, Notion and 200+ apps. No code, no builder. Start free.">
+<meta name="twitter:image" content="https://dugong.live/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Dugong",
+  "url": "https://dugong.live/",
+  "logo": "https://dugong.live/og-image.png",
+  "description": "AI-native workflow automation platform. Describe a workflow in plain English and an AI agent runs it across 200+ apps."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Dugong",
+  "url": "https://dugong.live/",
+  "description": "AI workflow automation in plain English."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Dugong",
+  "applicationCategory": "BusinessApplication",
+  "applicationSubCategory": "Workflow Automation",
+  "operatingSystem": "Web",
+  "url": "https://dugong.live/",
+  "description": "Describe any workflow in plain English and Dugong's AI agent runs it — calling Slack, Gmail, Salesforce, Notion and 200+ apps. No code, no builder. Start free.",
+  "featureList": [
+    "Plain-English workflow descriptions",
+    "AI agent execution with reasoning",
+    "200+ app integrations",
+    "Conditional logic and branching",
+    "Automatic retry and failure handling",
+    "Full plain-language run logs"
+  ],
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Starter",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free forever — 5 workflows, 500 runs/month"
+    },
+    {
+      "@type": "Offer",
+      "name": "Pro",
+      "price": "39",
+      "priceCurrency": "USD",
+      "description": "Unlimited workflows, 10,000 runs/month, all integrations"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Dugong?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dugong is an AI-native workflow automation platform. You describe a workflow in plain English — a trigger and the steps you want — and an AI agent reads it, reasons through each step, and executes it by calling your apps directly. There is no visual builder, no blocks, and no code required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is Dugong different from Zapier or Make?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Traditional automation tools make you build a rigid diagram of triggers and actions. Dugong replaces that with plain language: the AI agent interprets your intent at runtime, handles conditional logic like \"if the deal is over $10k\", carries context between steps, and recovers from failures instead of breaking. The description is the workflow."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to know how to code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. If you can describe a process to a colleague in writing, you can build it in Dugong. You name the apps and the steps in plain English, and the agent handles the API calls, authentication, and data mapping automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which apps and integrations does Dugong support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dugong connects to 200+ tools including Gmail, Slack, Salesforce, Notion, Stripe, GitHub, HubSpot, Shopify, Airtable, Google Sheets, Linear, Google Calendar and more. You simply mention an app in your steps and the agent knows how to call it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the AI agent handle errors and conditional logic?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The agent understands conditions written in plain English and branches accordingly on every run. If a tool call fails, it does not crash — it retries, attempts an alternative, or flags the issue with full context. Every decision and tool call is logged in plain language so you always know what happened and why."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a free plan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The Starter plan is free forever and includes 5 active workflows and 500 agent runs per month, with no credit card required. Paid plans start at $39/month for unlimited workflows and all 200+ integrations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data secure with Dugong?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dugong runs each workflow with scoped access to only the apps you connect, and gives you a full audit log of every run. Enterprise plans add SSO, SAML, granular permissions, and an on-premise deployment option."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
-<nav>
+<nav aria-label="Primary">
   <div class="wrap nav-inner">
-    <a class="logo" href="#"><span class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"></path><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"></path><path d="M3 12h18"></path></svg></span>dugong</a>
+    <a class="logo" href="#" aria-label="Dugong home"><span class="logo-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"></path><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"></path><path d="M3 12h18"></path></svg></span>dugong</a>
     <div class="nav-links">
       <a href="#how">How it works</a>
       <a href="#usecases">Use cases</a>
@@ -301,6 +457,8 @@
     </div>
   </div>
 </nav>
+
+<main>
 
 <!-- HERO -->
 <section class="hero wrap">
@@ -447,11 +605,11 @@ slack.postMessage({ channel: "#csm-team" })
       <a class="btn btn-ghost" href="#">Try this workflow →</a>
     </div>
     <div class="uc-flow">
-      <div class="flow-row"><div class="flow-ico">📨</div><div class="flow-main"><div class="t">Form submitted</div><div class="d">Typeform, HubSpot, or any webhook</div></div></div>
-      <div class="flow-row"><div class="flow-ico">🔍</div><div class="flow-main"><div class="t">Enrich with Clearbit</div><div class="d">Company size, industry, tech stack</div></div><span class="pill call">Tool call</span></div>
-      <div class="flow-row"><div class="flow-ico">🧠</div><div class="flow-main"><div class="t">Agent scores and routes</div><div class="d">AE for high-fit, nurture for low</div></div><span class="pill reason">AI reasons</span></div>
-      <div class="flow-row"><div class="flow-ico">💼</div><div class="flow-main"><div class="t">Create Salesforce deal</div><div class="d">Owner assigned, stage set, notes added</div></div><span class="pill call">Tool call</span></div>
-      <div class="flow-row"><div class="flow-ico">💬</div><div class="flow-main"><div class="t">Notify rep in Slack</div><div class="d">Card with lead score and key context</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">📨</div><div class="flow-main"><div class="t">Form submitted</div><div class="d">Typeform, HubSpot, or any webhook</div></div></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">🔍</div><div class="flow-main"><div class="t">Enrich with Clearbit</div><div class="d">Company size, industry, tech stack</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">🧠</div><div class="flow-main"><div class="t">Agent scores and routes</div><div class="d">AE for high-fit, nurture for low</div></div><span class="pill reason">AI reasons</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">💼</div><div class="flow-main"><div class="t">Create Salesforce deal</div><div class="d">Owner assigned, stage set, notes added</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">💬</div><div class="flow-main"><div class="t">Notify rep in Slack</div><div class="d">Card with lead score and key context</div></div><span class="pill call">Tool call</span></div>
     </div>
   </div>
 
@@ -463,10 +621,10 @@ slack.postMessage({ channel: "#csm-team" })
       <a class="btn btn-ghost" href="#">Try this workflow →</a>
     </div>
     <div class="uc-flow">
-      <div class="flow-row"><div class="flow-ico">🏆</div><div class="flow-main"><div class="t">Deal marked Closed Won</div><div class="d">Salesforce trigger fires instantly</div></div></div>
-      <div class="flow-row"><div class="flow-ico">📋</div><div class="flow-main"><div class="t">Create Notion onboarding</div><div class="d">From template, client details pre-filled</div></div><span class="pill call">Tool call</span></div>
-      <div class="flow-row"><div class="flow-ico">✉️</div><div class="flow-main"><div class="t">Send personalised welcome email</div><div class="d">From the AE's Gmail, not a generic address</div></div><span class="pill call">Tool call</span></div>
-      <div class="flow-row"><div class="flow-ico">📅</div><div class="flow-main"><div class="t">Book kickoff call</div><div class="d">Calendly invite, CSM auto-assigned by size</div></div><span class="pill reason">AI reasons</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">🏆</div><div class="flow-main"><div class="t">Deal marked Closed Won</div><div class="d">Salesforce trigger fires instantly</div></div></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">📋</div><div class="flow-main"><div class="t">Create Notion onboarding</div><div class="d">From template, client details pre-filled</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">✉️</div><div class="flow-main"><div class="t">Send personalised welcome email</div><div class="d">From the AE's Gmail, not a generic address</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">📅</div><div class="flow-main"><div class="t">Book kickoff call</div><div class="d">Calendly invite, CSM auto-assigned by size</div></div><span class="pill reason">AI reasons</span></div>
     </div>
   </div>
 
@@ -478,10 +636,10 @@ slack.postMessage({ channel: "#csm-team" })
       <a class="btn btn-ghost" href="#">Try this workflow →</a>
     </div>
     <div class="uc-flow">
-      <div class="flow-row"><div class="flow-ico">📝</div><div class="flow-main"><div class="t">Post published in Notion</div><div class="d">Status change triggers the agent</div></div></div>
-      <div class="flow-row"><div class="flow-ico">📖</div><div class="flow-main"><div class="t">Agent reads and understands it</div><div class="d">Tone, key points, audience inferred</div></div><span class="pill read">AI reads</span></div>
-      <div class="flow-row"><div class="flow-ico">✍️</div><div class="flow-main"><div class="t">Writes channel variants</div><div class="d">Twitter thread, LinkedIn post, email snippet</div></div><span class="pill reason">AI writes</span></div>
-      <div class="flow-row"><div class="flow-ico">⏰</div><div class="flow-main"><div class="t">Schedules in Buffer + SendGrid</div><div class="d">Right format, right time, per platform</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">📝</div><div class="flow-main"><div class="t">Post published in Notion</div><div class="d">Status change triggers the agent</div></div></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">📖</div><div class="flow-main"><div class="t">Agent reads and understands it</div><div class="d">Tone, key points, audience inferred</div></div><span class="pill read">AI reads</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">✍️</div><div class="flow-main"><div class="t">Writes channel variants</div><div class="d">Twitter thread, LinkedIn post, email snippet</div></div><span class="pill reason">AI writes</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">⏰</div><div class="flow-main"><div class="t">Schedules in Buffer + SendGrid</div><div class="d">Right format, right time, per platform</div></div><span class="pill call">Tool call</span></div>
     </div>
   </div>
 
@@ -493,10 +651,10 @@ slack.postMessage({ channel: "#csm-team" })
       <a class="btn btn-ghost" href="#">Try this workflow →</a>
     </div>
     <div class="uc-flow">
-      <div class="flow-row"><div class="flow-ico">🐙</div><div class="flow-main"><div class="t">GitHub issue labelled "critical"</div><div class="d">Webhook fires instantly</div></div></div>
-      <div class="flow-row"><div class="flow-ico">📟</div><div class="flow-main"><div class="t">Page on-call in Slack</div><div class="d">@mention with issue title and link</div></div><span class="pill call">Tool call</span></div>
-      <div class="flow-row"><div class="flow-ico">🚨</div><div class="flow-main"><div class="t">Open Linear incident</div><div class="d">Linked to GitHub issue, team assigned</div></div><span class="pill call">Tool call</span></div>
-      <div class="flow-row"><div class="flow-ico">📄</div><div class="flow-main"><div class="t">Create Notion post-mortem</div><div class="d">Template with timeline pre-filled</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">🐙</div><div class="flow-main"><div class="t">GitHub issue labelled "critical"</div><div class="d">Webhook fires instantly</div></div></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">📟</div><div class="flow-main"><div class="t">Page on-call in Slack</div><div class="d">@mention with issue title and link</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">🚨</div><div class="flow-main"><div class="t">Open Linear incident</div><div class="d">Linked to GitHub issue, team assigned</div></div><span class="pill call">Tool call</span></div>
+      <div class="flow-row"><div class="flow-ico" aria-hidden="true">📄</div><div class="flow-main"><div class="t">Create Notion post-mortem</div><div class="d">Template with timeline pre-filled</div></div><span class="pill call">Tool call</span></div>
     </div>
   </div>
 </section>
@@ -509,12 +667,12 @@ slack.postMessage({ channel: "#csm-team" })
     <p class="sec-sub">Dugong isn't a visual builder with an "AI" button bolted on. The AI is the engine — it reads, reasons, and acts.</p>
   </div>
   <div class="feat-grid">
-    <div class="feat reveal"><div class="ico">⌨️</div><h4>Language is the interface</h4><p>Your description is the workflow. No canvas, no blocks, no config panels. The agent reads what you wrote and figures out the rest.</p></div>
-    <div class="feat reveal"><div class="ico">🔀</div><h4>Conditional logic for free</h4><p>Write "if the deal is over $10k" or "unless they've been contacted" — the agent understands and branches accordingly, every run.</p></div>
-    <div class="feat reveal"><div class="ico">🛡️</div><h4>Failures handled intelligently</h4><p>If a tool call fails, the agent doesn't crash — it retries, tries an alternative, or flags the issue with full context.</p></div>
-    <div class="feat reveal"><div class="ico">🔌</div><h4>200+ tools, called directly</h4><p>Mention Gmail, Slack, Salesforce or Notion — the agent knows how to call them. No manual API setup. No OAuth headaches.</p></div>
-    <div class="feat reveal"><div class="ico">🧵</div><h4>Context carried across steps</h4><p>Each step isn't isolated. The agent carries what it learned in previous steps — so it can personalise and adapt throughout.</p></div>
-    <div class="feat reveal"><div class="ico">👁️</div><h4>Full visibility into every run</h4><p>Every tool call, every decision, every piece of data — logged in plain language so you always know what the agent did and why.</p></div>
+    <div class="feat reveal"><div class="ico" aria-hidden="true">⌨️</div><h4>Language is the interface</h4><p>Your description is the workflow. No canvas, no blocks, no config panels. The agent reads what you wrote and figures out the rest.</p></div>
+    <div class="feat reveal"><div class="ico" aria-hidden="true">🔀</div><h4>Conditional logic for free</h4><p>Write "if the deal is over $10k" or "unless they've been contacted" — the agent understands and branches accordingly, every run.</p></div>
+    <div class="feat reveal"><div class="ico" aria-hidden="true">🛡️</div><h4>Failures handled intelligently</h4><p>If a tool call fails, the agent doesn't crash — it retries, tries an alternative, or flags the issue with full context.</p></div>
+    <div class="feat reveal"><div class="ico" aria-hidden="true">🔌</div><h4>200+ tools, called directly</h4><p>Mention Gmail, Slack, Salesforce or Notion — the agent knows how to call them. No manual API setup. No OAuth headaches.</p></div>
+    <div class="feat reveal"><div class="ico" aria-hidden="true">🧵</div><h4>Context carried across steps</h4><p>Each step isn't isolated. The agent carries what it learned in previous steps — so it can personalise and adapt throughout.</p></div>
+    <div class="feat reveal"><div class="ico" aria-hidden="true">👁️</div><h4>Full visibility into every run</h4><p>Every tool call, every decision, every piece of data — logged in plain language so you always know what the agent did and why.</p></div>
   </div>
 </section>
 
@@ -606,6 +764,46 @@ slack.postMessage({ channel: "#csm-team" })
   </div>
 </section>
 
+
+<!-- FAQ -->
+<section class="faq wrap" id="faq">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">FAQ</span>
+    <h2 class="headline">Questions, <em>answered.</em></h2>
+    <p class="sec-sub">Everything you need to know about automating with plain English.</p>
+  </div>
+  <div class="faq-list reveal">
+    <details class="faq-item" open>
+      <summary>What is Dugong?</summary>
+      <div class="faq-a">Dugong is an AI-native workflow automation platform. You describe a workflow in plain English — a trigger and the steps you want — and an AI agent reads it, reasons through each step, and executes it by calling your apps directly. There is no visual builder, no blocks, and no code required.</div>
+    </details>
+    <details class="faq-item">
+      <summary>How is Dugong different from Zapier or Make?</summary>
+      <div class="faq-a">Traditional automation tools make you build a rigid diagram of triggers and actions. Dugong replaces that with plain language: the AI agent interprets your intent at runtime, handles conditional logic like "if the deal is over $10k", carries context between steps, and recovers from failures instead of breaking. The description is the workflow.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Do I need to know how to code?</summary>
+      <div class="faq-a">No. If you can describe a process to a colleague in writing, you can build it in Dugong. You name the apps and the steps in plain English, and the agent handles the API calls, authentication, and data mapping automatically.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Which apps and integrations does Dugong support?</summary>
+      <div class="faq-a">Dugong connects to 200+ tools including Gmail, Slack, Salesforce, Notion, Stripe, GitHub, HubSpot, Shopify, Airtable, Google Sheets, Linear, Google Calendar and more. You simply mention an app in your steps and the agent knows how to call it.</div>
+    </details>
+    <details class="faq-item">
+      <summary>How does the AI agent handle errors and conditional logic?</summary>
+      <div class="faq-a">The agent understands conditions written in plain English and branches accordingly on every run. If a tool call fails, it does not crash — it retries, attempts an alternative, or flags the issue with full context. Every decision and tool call is logged in plain language so you always know what happened and why.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Is there a free plan?</summary>
+      <div class="faq-a">Yes. The Starter plan is free forever and includes 5 active workflows and 500 agent runs per month, with no credit card required. Paid plans start at $39/month for unlimited workflows and all 200+ integrations.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Is my data secure with Dugong?</summary>
+      <div class="faq-a">Dugong runs each workflow with scoped access to only the apps you connect, and gives you a full audit log of every run. Enterprise plans add SSO, SAML, granular permissions, and an on-premise deployment option.</div>
+    </details>
+  </div>
+</section>
+
 <!-- FINAL CTA -->
 <section class="final wrap">
   <div class="final-card reveal">
@@ -615,12 +813,14 @@ slack.postMessage({ channel: "#csm-team" })
   </div>
 </section>
 
+</main>
+
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="logo" href="#"><span class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"></path><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"></path><path d="M3 12h18"></path></svg></span>dugong</a>
+        <a class="logo" href="#" aria-label="Dugong home"><span class="logo-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9"></path><path d="M12 3c2 3 3 6 3 9s-1 6-3 9"></path><path d="M3 12h18"></path></svg></span>dugong</a>
         <p>AI-native workflow automation. Describe what you need — an agent does the rest.</p>
       </div>
       <div class="foot-col">
