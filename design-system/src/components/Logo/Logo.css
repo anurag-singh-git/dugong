@@ -1,0 +1,23 @@
+.ds-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 21px;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.ds-logo-icon {
+  width: var(--ds-logo-size, 26px);
+  height: var(--ds-logo-size, 26px);
+  border-radius: 8px;
+  background: #11110e;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.ds-logo-icon svg {
+  width: 62%;
+  height: 62%;
+}

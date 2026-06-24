@@ -1,0 +1,44 @@
+{
+  "name": "@dugong/design-system",
+  "version": "0.1.0",
+  "description": "Dugong design system — tokens and React components extracted from the Dugong marketing site.",
+  "type": "module",
+  "main": "./dist/dugong-ds.umd.js",
+  "module": "./dist/dugong-ds.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/dugong-ds.es.js",
+      "require": "./dist/dugong-ds.umd.js"
+    },
+    "./styles.css": "./dist/dugong-ds.css"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^8.6.0",
+    "@storybook/blocks": "^8.6.0",
+    "@storybook/react": "^8.6.0",
+    "@storybook/react-vite": "^8.6.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "storybook": "^8.6.0",
+    "typescript": "^5.6.0",
+    "vite": "^5.4.0",
+    "vite-plugin-dts": "^4.3.0"
+  }
+}

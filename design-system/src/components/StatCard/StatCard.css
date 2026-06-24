@@ -1,0 +1,20 @@
+.ds-stat {
+  background: linear-gradient(180deg, rgba(198, 254, 30, 0.22), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 30px 24px;
+  text-align: center;
+}
+.ds-stat-num {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: clamp(34px, 4.5vw, 52px);
+  color: var(--text);
+  line-height: 1;
+}
+.ds-stat-lbl {
+  color: var(--text-dim);
+  font-size: 13.5px;
+  margin-top: 12px;
+}

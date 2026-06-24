@@ -1,0 +1,26 @@
+.ds-sec-head {
+  margin-bottom: 54px;
+}
+.ds-sec-head.ds-sec-center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ds-sec-head .ds-headline {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  font-size: clamp(30px, 4.4vw, 52px);
+  margin: 20px 0 16px;
+}
+.ds-sec-head .ds-headline em {
+  font-style: normal;
+  color: var(--text-faint);
+}
+.ds-sec-head .ds-sec-sub {
+  color: var(--text-dim);
+  font-size: 17px;
+  max-width: 560px;
+}

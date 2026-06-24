@@ -1,0 +1,48 @@
+.ds-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ds-faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.ds-faq-item[open] {
+  border-color: var(--border-strong);
+}
+.ds-faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px 22px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.ds-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.ds-faq-item summary::after {
+  content: "+";
+  font-size: 24px;
+  line-height: 1;
+  color: var(--lime-deep);
+  font-weight: 700;
+  flex: none;
+  transition: transform 0.2s;
+}
+.ds-faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+.ds-faq-a {
+  padding: 0 22px 22px;
+  color: var(--text-dim);
+  font-size: 15.5px;
+  line-height: 1.65;
+}

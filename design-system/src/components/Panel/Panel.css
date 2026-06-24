@@ -1,0 +1,42 @@
+.ds-panel {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 12px 40px -24px rgba(15, 15, 12, 0.3);
+}
+.ds-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+}
+.ds-panel-head .ds-panel-tag {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-faint);
+  font-family: var(--mono);
+  font-weight: 400;
+}
+.ds-dotrow {
+  display: flex;
+  gap: 6px;
+}
+.ds-dotrow i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(15, 15, 12, 0.14);
+}
+.ds-dotrow i.ds-dot-live {
+  background: var(--lime-deep);
+}
+.ds-panel-body {
+  padding: 20px;
+}

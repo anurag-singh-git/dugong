@@ -1,0 +1,78 @@
+.ds-price {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.ds-price-featured {
+  border-color: rgba(168, 224, 0, 0.7);
+  background: linear-gradient(180deg, rgba(198, 254, 30, 0.16), var(--surface));
+  box-shadow: 0 24px 60px -36px rgba(168, 224, 0, 0.9);
+}
+.ds-price-badge {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--lime);
+  color: #11110e;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 13px;
+  border-radius: var(--radius-pill);
+}
+.ds-price-name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-dim);
+}
+.ds-price-amt {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: 46px;
+  margin: 14px 0 4px;
+}
+.ds-price-amt small {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+.ds-price-desc {
+  color: var(--text-dim);
+  font-size: 14px;
+  min-height: 62px;
+}
+.ds-price hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 20px 0;
+}
+.ds-price ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.ds-price li {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.ds-price li::before {
+  content: "✓";
+  color: var(--lime-deep);
+  font-weight: 800;
+  flex: none;
+}

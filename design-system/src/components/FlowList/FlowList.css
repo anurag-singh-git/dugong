@@ -1,0 +1,40 @@
+.ds-flow {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 8px;
+  box-shadow: var(--shadow-card);
+}
+.ds-flow-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 11px;
+}
+.ds-flow-row + .ds-flow-row {
+  border-top: 1px solid var(--border);
+}
+.ds-flow-ico {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+.ds-flow-main {
+  flex: 1;
+}
+.ds-flow-main .ds-flow-t {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 14.5px;
+}
+.ds-flow-main .ds-flow-d {
+  color: var(--text-faint);
+  font-size: 12.5px;
+}

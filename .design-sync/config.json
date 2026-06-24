@@ -1,0 +1,11 @@
+{
+  "projectId": "ddd6a708-1792-4579-9a83-d4aa2afffbba",
+  "pkg": "@dugong/design-system",
+  "globalName": "DugongDS",
+  "shape": "storybook",
+  "storybookConfigDir": "design-system/.storybook",
+  "storybookStatic": ".design-sync/sb-reference",
+  "buildCmd": "npm --prefix design-system run build",
+  "cssEntry": "dist/dugong-ds.css",
+  "readmeHeader": ".design-sync/conventions.md"
+}

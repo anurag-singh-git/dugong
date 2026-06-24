@@ -1,0 +1,22 @@
+.ds-chip {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  transition: 0.2s;
+  display: inline-block;
+}
+.ds-chip:hover {
+  border-color: rgba(168, 224, 0, 0.7);
+  color: var(--text);
+  background: #fff;
+}
+.ds-chip-more {
+  color: var(--lime-deep);
+  border-color: var(--lime-line);
+  background: var(--lime-soft);
+}
